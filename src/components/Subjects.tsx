@@ -5,6 +5,7 @@ import { ChevronRight } from 'lucide-react'
 import type { Subject } from '../types/subject'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router'
+import { div } from 'framer-motion/client'
 
 const Subjects = () => {
   const {
@@ -65,9 +66,10 @@ const Subjects = () => {
       }}
     >
       {subjects?.map((item) => (
+        // card
         <motion.div
           key={item.id}
-          className="rounded-2xl border border-gray-100 shadow-md bg-white overflow-hidden"
+          className="rounded-2xl border border-gray-100 shadow-md bg-white overflow-hidden h-[400px] relative"
           variants={{
             hidden: { opacity: 0, y: 30 },
             visible: { opacity: 1, y: 0 },
@@ -85,7 +87,7 @@ const Subjects = () => {
           {/* Body */}
           <div className="p-2">
             <ul className="">
-              {item.subject_headings?.map((sh) => (
+              {item.subject_headings?.slice(0, 5).map((sh) => (
                 <motion.li
                   key={sh.id}
                   className="flex text-sm items-start gap-2 group hover:bg-gray-200 rounded-md p-2 transition"
@@ -102,6 +104,12 @@ const Subjects = () => {
                 </motion.li>
               ))}
             </ul>
+
+            { item.subject_headings.length > 5 ? (
+              <div>
+                <button className='text-blue-900 hover:text-blue-700 hover:cursor-pointer px-4 py-4'>See more...</button>
+              </div>
+            ) : null }
           </div>
         </motion.div>
       ))}

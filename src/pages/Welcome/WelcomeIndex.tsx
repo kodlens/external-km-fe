@@ -1,27 +1,31 @@
 import { useEffect, useRef, useState } from "react"
 import { Search } from "lucide-react"
 import WelcomeHeroWithSearch from "../../components/WelcomeHeroWithSearch"
-import ResultIndex from "../Result/ResultIndex"
+//import ResultIndex from "../Result/ResultIndex"
 import Subjects from "../../components/Subjects"
+import { useNavigate } from "react-router"
 
 export const WelcomeIndex = () => {
   const searchRef = useRef<HTMLInputElement>(null)
-  const resultRef = useRef<{ handleSearch: (search: string) => void }>(null)
-  const resultSectionRef = useRef<HTMLElement>(null)
+  // const resultRef = useRef<{ handleSearch: (search: string) => void }>(null)
+  // const resultSectionRef = useRef<HTMLElement>(null)
 
-  const [searchValue, setSearchValue] = useState<string>("")
+ // const [searchValue, setSearchValue] = useState<string>("")
 
-  useEffect(() => {
-    if (searchValue) {
-      resultRef.current?.handleSearch(searchValue)
-      // Scroll to results
-      resultSectionRef.current?.scrollIntoView({ behavior: "smooth" })
-    }
-  }, [searchValue])
+  const navigate = useNavigate()
+
+  // useEffect(() => {
+  //   if (searchValue) {
+  //     resultRef.current?.handleSearch(searchValue)
+  //     // Scroll to results
+  //     resultSectionRef.current?.scrollIntoView({ behavior: "smooth" })
+  //   }
+  // }, [searchValue])
 
   const handleKeyDown = () => {
     const value = searchRef.current?.value.trim() || ""
-    setSearchValue(value)
+    //setSearchValue(value)
+    navigate(`/search/${value}`)
   }
 
   return (
@@ -76,7 +80,7 @@ export const WelcomeIndex = () => {
 
 
       {/* Conditional Sections */}
-      {searchValue ? (
+      {/* {searchValue ? (
         <section
           ref={resultSectionRef}
           id="results"
@@ -91,7 +95,7 @@ export const WelcomeIndex = () => {
         <section id="subjects" className="bg-gray-50 py-16">
           <div className="lg:max-w-7xl mx-auto px-6">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">
-              Explore Subjects
+              Explore Class
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
               Browse through curated knowledge areas — find insights, topics, and
@@ -100,7 +104,19 @@ export const WelcomeIndex = () => {
             <Subjects />
           </div>
         </section>
-      )}
+      )} */}
+      <section id="subjects" className="bg-gray-50 py-16">
+        <div className="lg:max-w-7xl mx-auto px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">
+            Explore Class
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            Browse through curated knowledge areas — find insights, topics, and
+            innovations.
+          </p>
+          <Subjects />
+        </div>
+      </section>
     </>
   )
 }
