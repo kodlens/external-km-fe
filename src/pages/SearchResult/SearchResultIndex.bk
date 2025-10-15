@@ -1,13 +1,12 @@
 import axios from 'axios';
-import { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import type { SubjectHeading } from '../../types/subjectHeading';
 import { config } from '../../config/config';
 import Loader from '../../components/loader/Loader';
-import { Link, useParams } from 'react-router';
+import { Link } from 'react-router';
 import { SearchX } from "lucide-react";
 import type { Subject } from '../../types/subject';
 import { div } from 'framer-motion/client';
-import Skeleton from '../../components/Skeleton';
 
 // Temporary static subtopics
 // const subTopics = [
@@ -24,20 +23,18 @@ interface InfoProps {
   source_url: string;
 }
 
-const SearchResultIndex = () => {
-
+const SearchResultIndex = forwardRef((_, ref) => {
+  
   const [data, setData] = useState<any[]>([]);
   const [subjectHeadings, setSubjectHeadings] = useState<SubjectHeading[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  //const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('')
 
-  const { search } = useParams()
 
-  const handleSearch = () => {
-    
+  const handleSearch = (search: string) => {
     setLoading(true);
-    //setSearch(search)
+    setSearch(search)
     axios
       .get(`${config.baseUri}/api/search/s?key=${search}`)
       .then((res) => {
@@ -51,18 +48,12 @@ const SearchResultIndex = () => {
       });
   };
 
-  useEffect( ()=> {
-    handleSearch()
-  }, [])
+  useImperativeHandle(ref, () => ({
+    handleSearch,
+  }));
 
   if (loading) {
-    return (
-      <div className='min-h-screen max-w-7xl md:mx-auto mx-auto'>
-        <div className='mt-20'>
-          <Skeleton />
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   const redirection = (i:any) =>{
@@ -74,7 +65,7 @@ const SearchResultIndex = () => {
   }
 
   return (
-    <div className='min-h-screen mt-24 md:w-7xl md:mx-auto mx-2'>
+    <div className='min-h-screen mt-24 md:w-7xl md:mx-auto mx-2 bg-amber-500'>
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Sidebar - Topics */}
@@ -175,6 +166,6 @@ const SearchResultIndex = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SearchResultIndex;
