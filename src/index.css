@@ -1,13 +1,11 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin 'tailwindcss-animate';
 
-
 html,
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -20,10 +18,40 @@ body {
     --color-fade-blue: #4a64e734;
 }
 
-.active{
-  @apply py-2 px-6 mx-2 bg-fade-blue rounded-2xl;
+/* .active {
+    @apply py-2 px-6 mx-2 bg-fade-blue rounded-2xl;
+} */
+
+.pagination-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    /* fixed width  */
+    height: 50px;
+    /* fixed height */
+    border-radius: 50%;
+    /* makes it a circle */
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    transition: all 0.2s ease;
 }
 
+.pagination-button.active {
+    
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination-button:hover {
+    cursor: pointer;
+    background-color: #e6e6e6;
+}
 
 /* 
 @custom-variant dark (&:is(.dark *));

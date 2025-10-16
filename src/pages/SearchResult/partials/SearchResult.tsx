@@ -7,7 +7,6 @@ import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
 
-
 interface InfoProps {
     title: string;
     description: string;
@@ -124,26 +123,23 @@ const SearchResult = ( { search } : { search?:string } ) => {
                 <MySkeleton />
             )}
             
-            
-
 
             <div className="my-4">
-                <ReactPaginate
+                 <ReactPaginate
                     className="flex"
                     breakLabel="..."
-                    activeClassName="bg-red-300"
-                    pageClassName="px-4 py-2 bg-blue-200 hover:cursor-pointer hover:bg-blue-100"
-                    nextClassName="px-4 py-2 hover:cursor-pointer hover:bg-blue-100"
-                    previousClassName="px-4 py-2 hover:cursor-pointer hover:bg-blue-100"
-                    breakClassName="px-4 py-2"
-                    nextLabel="NEXT >"
-                    onPageChange={(num)=> {
+                    activeClassName="pagination-button active"
+                    pageClassName="pagination-button"
+                    nextClassName="pagination-button"
+                    previousClassName="pagination-button"
+                    breakClassName="pagination-button"
+                    nextLabel=">"
+                    onPageChange={(num) => {
                         setPage(num.selected);
                     }}
                     pageRangeDisplayed={5}
                     pageCount={data ? data?.total : 0}
-                    previousLabel="< PREV"
-                    renderOnZeroPageCount={null}
+                    previousLabel="<"
                 />
             </div>
         </>
