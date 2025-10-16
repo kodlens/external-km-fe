@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { SearchX } from "lucide-react";
 import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
+import { useState } from "react";
 
 
 interface InfoProps {
@@ -16,19 +17,19 @@ interface InfoProps {
 
 
 const SearchResult = ( { search } : { search?:string } ) => {
-
+    const [page, setPage] = useState<number>(1)
+    
     const { data, isFetching, error } = useQuery({
-        queryKey: ['fetchSearch'],
+        queryKey: ['fetchSearch', page],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search/s?key=${search}`)
+            const res =  await axios.get(`${config.baseUri}/api/search/s?key=${search}&page=${page}`)
 
             return res.data
         },
 
         refetchOnWindowFocus: false
     })
-
-  
+    
     if(error){
         <div>
             There is an error occured while fetching the data.
@@ -46,7 +47,7 @@ const SearchResult = ( { search } : { search?:string } ) => {
 
 
     
-    if (isFetching) {
+    const MySkeleton = () => {
         return (
             <div className='min-h-screen max-w-7xl md:mx-auto mx-auto'>
                 <div className=''>
@@ -74,66 +75,74 @@ const SearchResult = ( { search } : { search?:string } ) => {
 
     return (
         <>
-            {data?.data.length > 0 ? (
-                <div className="grid gap-6">
-                    {data?.data.map((item: InfoProps, i:number) => (
-                        <div
-                            key={i}
-                            className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition bg-white"
-                        >
-                            {/* Title */}
-                            <h3 className="text-lg font-semibold text-blue-600 mb-2">
-                                <Link
-                                    to={redirection(item)}
-                                    target="_blank"
-                                    className="hover:underline"
+            { !isFetching ? (
+                <>
+                    {data?.data.length > 0 ? (
+                        <div className="grid gap-6">
+                            {data?.data.map((item: InfoProps, i:number) => (
+                                <div
+                                    key={i}
+                                    className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition bg-white"
                                 >
-                                    {item.title}
-                                </Link>
-                            </h3>
+                                    {/* Title */}
+                                    <h3 className="text-lg font-semibold text-blue-600 mb-2">
+                                        <Link
+                                            to={redirection(item)}
+                                            target="_blank"
+                                            className="hover:underline"
+                                        >
+                                            {item.title}
+                                        </Link>
+                                    </h3>
 
-                            {/* Description */}
-                            <div
-                                className="text-sm text-gray-700 mb-3 line-clamp-3"
-                                dangerouslySetInnerHTML={{ __html: item.description }}
-                            />
+                                    {/* Description */}
+                                    <div
+                                        className="text-sm text-gray-700 mb-3 line-clamp-3"
+                                        dangerouslySetInnerHTML={{ __html: item.description }}
+                                    />
 
-                            {/* Source */}
-                            {item.source_url && (
-                                <Link
-                                    to={item.source_url}
-                                    target="_blank"
-                                    className="text-xs text-blue-500 hover:underline"
-                                >
-                                    {item.source_url}
-                                </Link>
-                            )}
+                                    {/* Source */}
+                                    {item.source_url && (
+                                        <Link
+                                            to={item.source_url}
+                                            target="_blank"
+                                            className="text-xs text-blue-500 hover:underline"
+                                        >
+                                            {item.source_url}
+                                        </Link>
+                                    )}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    ) : (
+                        <div className="flex items-center gap-2 text-gray-500 italic text-sm mt-6">
+                            <SearchX size={18} /> No results found
+                        </div>
+                    )}
+                </>
             ) : (
-                <div className="flex items-center gap-2 text-gray-500 italic text-sm mt-6">
-                    <SearchX size={18} /> No results found
-                </div>
+                <MySkeleton />
             )}
+            
+            
 
 
             <div className="my-4">
-                {/* <Items currentItems={[1,2,3,4,5,6,7,8]} /> */}
                 <ReactPaginate
                     className="flex"
                     breakLabel="..."
-                    pageClassName="px-4 py-2 bg-blue-300"
-                    nextClassName="px-4 py-2"
-                    previousClassName="px-4 py-2"
+                    activeClassName="bg-red-300"
+                    pageClassName="px-4 py-2 bg-blue-200 hover:cursor-pointer hover:bg-blue-100"
+                    nextClassName="px-4 py-2 hover:cursor-pointer hover:bg-blue-100"
+                    previousClassName="px-4 py-2 hover:cursor-pointer hover:bg-blue-100"
                     breakClassName="px-4 py-2"
-                    nextLabel="next >"
-                    onPageChange={()=> {
-
+                    nextLabel="NEXT >"
+                    onPageChange={(num)=> {
+                        setPage(num.selected);
                     }}
                     pageRangeDisplayed={5}
-                    pageCount={data?.total}
-                    previousLabel="< previous"
+                    pageCount={data ? data?.total : 0}
+                    previousLabel="< PREV"
                     renderOnZeroPageCount={null}
                 />
             </div>
