@@ -1,180 +1,48 @@
-import axios from 'axios';
-import { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
-import type { SubjectHeading } from '../../types/subjectHeading';
-import { config } from '../../config/config';
-import Loader from '../../components/loader/Loader';
-import { Link, useParams } from 'react-router';
-import { SearchX } from "lucide-react";
-import type { Subject } from '../../types/subject';
-import { div } from 'framer-motion/client';
-import Skeleton from '../../components/Skeleton';
 
-// Temporary static subtopics
-// const subTopics = [
-//   { id: 1, title: "Introduction to the Topic" },
-//   { id: 2, title: "Key Concepts" },
-//   { id: 3, title: "Case Studies" },
-//   { id: 4, title: "Further Reading" },
-// ];
+import { useParams } from 'react-router';
+import SearchResult from './partials/SearchResult';
+import SubjectLabel from './partials/SubjectLabel';
+import SubjectHeadingLabel from './partials/SubjectHeadingLabel';
 
-interface InfoProps {
-  title: string;
-  description: string;
-  slug: string;
-  source_url: string;
-}
 
 const SearchResultIndex = () => {
 
-  const [data, setData] = useState<any[]>([]);
-  const [subjectHeadings, setSubjectHeadings] = useState<SubjectHeading[]>([]);
-  const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  //const [search, setSearch] = useState('')
+    const { search } = useParams()
 
-  const { search } = useParams()
-
-  const handleSearch = () => {
-    
-    setLoading(true);
-    //setSearch(search)
-    axios
-      .get(`${config.baseUri}/api/search/s?key=${search}`)
-      .then((res) => {
-        setData(res.data.results.data);
-        setSubjectHeadings(res.data.subject_headings);
-        setSubjects(res.data.subjects);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
-
-  useEffect( ()=> {
-    handleSearch()
-  }, [])
-
-  if (loading) {
     return (
-      <div className='min-h-screen max-w-7xl md:mx-auto mx-auto'>
-        <div className='mt-20'>
-          <Skeleton />
+        <div className='min-h-screen mt-24 md:w-7xl md:mx-auto mx-2'>
+
+            <div className="flex flex-col lg:flex-row gap-6">
+                {/* Sidebar - Topics */}
+                <aside className="lg:w-64 w-full bg-white shadow rounded-xl border border-gray-100 p-6 space-y-6">
+                    {/* Topics */}
+                    <div>
+                        <h2 className="font-semibold text-gray-800 mb-4">📂 Subjects</h2>
+                        <SubjectLabel search={search}/>
+                    </div>
+
+                    {/* Subtopics */}
+                    <div>
+                        <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
+                        <SubjectHeadingLabel search={search}/>
+                    </div>
+                </aside>
+
+                {/* Main Results */}
+                <main className="flex-1">
+                     <h2 className="mb-4 text-xl font-bold text-gray-800">
+                        📚 Digital Collections
+                    </h2>
+
+                    <div className='my-2'>
+                        Search: {search}
+                    </div>
+
+                    <SearchResult search={search}/>
+                </main>
+            </div>
         </div>
-      </div>
     );
-  }
-
-  const redirection = (i:any) =>{
-    if(i.source_url){
-        return `${i.source_url}/article/${i.slug}`
-    }else{
-        return `view/article/${i.slug}`
-    }
-  }
-
-  return (
-    <div className='min-h-screen mt-24 md:w-7xl md:mx-auto mx-2'>
-
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Sidebar - Topics */}
-        <aside className="lg:w-64 w-full bg-white shadow rounded-xl border border-gray-100 p-6 space-y-6">
-          {/* Topics */}
-          <div>
-            <h2 className="font-semibold text-gray-800 mb-4">📂 Subjects</h2>
-            <div className="flex flex-col gap-3">
-              {subjects.length > 0 ? (
-                subjects.map((subject, i) => (
-                  <Link
-                    key={i}
-                    target='_blank'
-                    to={`/subjects/${subject.slug}/${search}`}
-                    className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition"
-                  >
-                    {subject.subject} ({subject.count})
-                  </Link>
-                ))
-              ) : (
-                <div className="flex items-center gap-2 text-gray-500 italic text-sm">
-                  <SearchX size={16} /> No topics found
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Subtopics */}
-          <div>
-            <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-            <ul className="space-y-2 text-sm text-gray-600">
-              {subjectHeadings.map((subH) => (
-                <li
-                  key={subH.id}
-                  className="pl-2 border-l-2 border-blue-200 hover:border-blue-500 hover:text-blue-700 transition"
-                >
-                  <Link to={`/subject-headings/${subH.slug}`}>{subH.subject_heading} ( {subH.count} )</Link>
-                  
-                </li>
-              ))}
-            </ul>
-          </div>
-        </aside>
-
-        {/* Main Results */}
-        <main className="flex-1">
-          <h2 className="mb-4 text-xl font-bold text-gray-800">
-            📚 Digital Collections
-          </h2>
-
-          <div className='my-4'>
-              Search: {search}
-            </div>
-
-          {data?.length > 0 ? (
-            <div className="grid gap-6">
-              {data.map((item: InfoProps, i) => (
-                <div
-                  key={i}
-                  className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition bg-white"
-                >
-                  {/* Title */}
-                  <h3 className="text-lg font-semibold text-blue-600 mb-2">
-                    <Link
-                      to={redirection(item)}
-                      target="_blank"
-                      className="hover:underline"
-                    >
-                      {item.title}
-                    </Link>
-                  </h3>
-
-                  {/* Description */}
-                  <div
-                    className="text-sm text-gray-700 mb-3 line-clamp-3"
-                    dangerouslySetInnerHTML={{ __html: item.description }}
-                  />
-
-                  {/* Source */}
-                  {item.source_url && (
-                    <Link
-                      to={item.source_url}
-                      target="_blank"
-                      className="text-xs text-blue-500 hover:underline"
-                    >
-                      {item.source_url}
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex items-center gap-2 text-gray-500 italic text-sm mt-6">
-              <SearchX size={18} /> No results found
-            </div>
-          )}
-        </main>
-      </div>
-    </div>
-  );
 };
 
 export default SearchResultIndex;

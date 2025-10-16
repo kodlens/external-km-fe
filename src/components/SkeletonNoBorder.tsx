@@ -1,10 +1,10 @@
-const Skeleton = () => {
+const SkeletonNoBorder = () => {
   return (
-    <div className="p-4 flex flex-col gap-6 ">
+    <div className="flex flex-col gap-6 ">
         {[...Array(4)].map((_, i) => (
         <div
             key={i}
-            className="animate-pulse rounded-2xl border border-gray-200 shadow-md p-6"
+            className="animate-pulse rounded-2xl p-2"
         >
             <div className="h-6 w-2/3 bg-gray-300 rounded mb-4" />
             <div className="space-y-2">
@@ -18,4 +18,4 @@ const Skeleton = () => {
   )
 }
 
-export default Skeleton
+export default SkeletonNoBorder
