@@ -22,7 +22,7 @@ body {
     @apply py-2 px-6 mx-2 bg-fade-blue rounded-2xl;
 } */
 
-.pagination-button {
+.pagination-button a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -41,14 +41,14 @@ body {
     transition: all 0.2s ease;
 }
 
-.pagination-button.active {
+.pagination-button.active a {
     
     background-color: #007bff;
     color: white;
     border-color: #007bff;
 }
 
-.pagination-button:hover {
+.pagination-button a:hover {
     cursor: pointer;
     background-color: #e6e6e6;
 }

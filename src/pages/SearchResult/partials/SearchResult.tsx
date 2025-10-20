@@ -57,18 +57,18 @@ const SearchResult = ( { search } : { search?:string } ) => {
     }
 
 
-    function Items({ currentItems } : { currentItems:any } ) {
-        return (
-            <>
-            {currentItems &&
-                currentItems.map((item:number) => (
-                <div>
-                    <h3>Item #{item}</h3>
-                </div>
-                ))}
-            </>
-        );
-        }
+    // function Items({ currentItems } : { currentItems:any } ) {
+    //     return (
+    //         <>
+    //         {currentItems &&
+    //             currentItems.map((item:number) => (
+    //             <div>
+    //                 <h3>Item #{item}</h3>
+    //             </div>
+    //             ))}
+    //         </>
+    //     );
+    // }
 
 
 
@@ -124,7 +124,7 @@ const SearchResult = ( { search } : { search?:string } ) => {
             )}
             
 
-            <div className="my-4">
+            <div className="my-4 overflow-x-auto">
                  <ReactPaginate
                     className="flex"
                     breakLabel="..."
