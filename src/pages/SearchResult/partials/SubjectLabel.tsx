@@ -62,7 +62,7 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }
             ))
         ) : (
             <div className="flex items-center gap-2 text-gray-500 italic text-sm">
-                <SearchX size={16} /> No topics found
+                <SearchX size={16} /> No subjects found
             </div>
         )}
     </div>

@@ -86,7 +86,7 @@ const SearchResultIndex = () => {
                     </h2>
 
                     <div className='my-2'>
-                        Search: {key}
+                        Search: {textSearch}
                     </div>
 
                     <SearchResult ref={searchRef} search={textSearch} />
