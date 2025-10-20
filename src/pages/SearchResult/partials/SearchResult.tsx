@@ -73,21 +73,12 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
         );
     }
 
-
-    // function Items({ currentItems } : { currentItems:any } ) {
-    //     return (
-    //         <>
-    //         {currentItems &&
-    //             currentItems.map((item:number) => (
-    //             <div>
-    //                 <h3>Item #{item}</h3>
-    //             </div>
-    //             ))}
-    //         </>
-    //     );
-    // }
-
-
+    const handlePageChange = (pageNo:number) => {
+         //setPage(num.selected);
+         console.log(pageNo + 1);
+         setPage(pageNo + 1);
+         
+    }
 
     return (
         <>
@@ -152,7 +143,7 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
                     breakClassName="pagination-button"
                     nextLabel=">"
                     onPageChange={(num) => {
-                        setPage(num.selected);
+                       handlePageChange(num.selected)
                     }}
                     pageRangeDisplayed={5}
                     pageCount={data ? data?.total : 0}

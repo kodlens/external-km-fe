@@ -5,9 +5,10 @@ import type { SubjectHeading } from "../../../types/subjectHeading"
 import { Link } from "react-router"
 import SkeletonNoBorder from "../../../components/SkeletonNoBorder"
 import { forwardRef, useImperativeHandle } from "react"
+import { SearchX } from "lucide-react"
 
 export interface SubjectHeadingRef {
-    reload : () => void
+    reload: () => void
 }
 
 interface SubjectHeadingProps {
@@ -15,12 +16,12 @@ interface SubjectHeadingProps {
 }
 
 
-const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>(( { search }, ref ) => {
+const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>(({ search }, ref) => {
 
     const { data, isFetching, error, refetch } = useQuery({
         queryKey: ['subjectHeadings'],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search-label-subject-headings/s?key=${search}`)
+            const res = await axios.get(`${config.baseUri}/api/search-label-subject-headings/s?key=${search}`)
 
             return res.data
         },
@@ -34,35 +35,42 @@ const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>((
         }
     }))
 
-    
+
     if (isFetching) {
         return (
-            <SkeletonNoBorder/>
+            <SkeletonNoBorder />
         );
     }
-    
 
-    if(error){
+
+    if (error) {
         <div>
             There is an error occured while fetching the data.
         </div>
     }
-    
 
 
-  return (
-    <ul className="space-y-2 text-sm text-gray-600">
-        { data?.map((subH:SubjectHeading, ix:number) => (
-            <li
-                key={ix}
-                className="pl-2 border-l-2 border-blue-200 hover:border-blue-500 hover:text-blue-700 transition"
-            >
-                <Link to={`/subject-headings/${subH.slug}`}>{subH.subject_heading} ( {subH.count} )</Link>
 
-            </li>
-        ))}
-    </ul>
-  )
+    return (
+        data.length > 0 ? (
+            <ul className="space-y-2 text-sm text-gray-600">
+                { data?.map((subH:SubjectHeading, ix:number) => (
+                    <li
+                        key={ix}
+                        className="pl-2 border-l-2 border-blue-200 hover:border-blue-500 hover:text-blue-700 transition"
+                    >
+                        <Link to={`/subject-headings/${subH.slug}`}>{subH.subject_heading} ( {subH.count} )</Link>
+
+                    </li>
+                ))}
+            </ul>
+        ) : (
+             <div className="flex items-center gap-2 text-gray-500 italic text-sm">
+                <SearchX size={16} /> No subject headings found
+            </div>
+        ) 
+    )
+
 })
 
 export default SubjectHeadingLabel
