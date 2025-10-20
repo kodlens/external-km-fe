@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { config } from "../../../config/config";
 import axios from "axios";
 import { Link } from "react-router";
-import { SearchX } from "lucide-react";
+import { SearchX, View } from "lucide-react";
 import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
 import { forwardRef, useImperativeHandle, useState } from "react";
@@ -10,6 +10,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 interface InfoProps {
     title: string;
     description: string;
+    description_text?: string;
     slug: string;
     source_url: string;
 }
@@ -118,6 +119,17 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
                                             {item.source_url}
                                         </Link>
                                     )}
+
+                                    {item.description && (
+                                        <Link
+                                            to={`/view/article/${item.slug}`}
+                                            target="_blank"
+                                            className="text-xs text-blue-500 hover:underline"
+                                        >
+                                            <View size={12} /> {item.slug}
+                                        </Link>
+                                    )}
+
                                 </div>
                             ))}
                         </div>
