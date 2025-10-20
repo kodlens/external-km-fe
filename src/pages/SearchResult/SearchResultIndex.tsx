@@ -1,7 +1,7 @@
 
 import { useLocation } from 'react-router';
 import SearchResult, { type SearchResultRef } from './partials/SearchResult';
-import SubjectLabel from './partials/SubjectLabel';
+import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
 import SubjectHeadingLabel from './partials/SubjectHeadingLabel';
 import { Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -14,6 +14,7 @@ const SearchResultIndex = () => {
     const query = new URLSearchParams(search);
     const key = query.get("key"); // 👉 "something"
     const searchRef = useRef<SearchResultRef>(null)
+    const subjectRef = useRef<SubjectLabelRef>(null)
 
     const [textSearch, setTextSearch] = useState<string>(key || "");
 
@@ -25,6 +26,7 @@ const SearchResultIndex = () => {
 
     const handleKeyDown = () => {
         searchRef.current?.reload()
+        subjectRef.current?.reload()
     }
 
     return (
@@ -36,13 +38,13 @@ const SearchResultIndex = () => {
                     {/* Topics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📂 Subjects</h2>
-                        <SubjectLabel search={key} />
+                        <SubjectLabel ref={subjectRef} search={textSearch} />
                     </div>
 
                     {/* Subtopics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        <SubjectHeadingLabel search={key} />
+                        <SubjectHeadingLabel search={textSearch} />
                     </div>
                 </aside>
 

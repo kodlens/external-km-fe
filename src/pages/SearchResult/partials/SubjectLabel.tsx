@@ -5,10 +5,20 @@ import { Link } from 'react-router'
 import { SearchX } from 'lucide-react'
 import axios from 'axios'
 import SkeletonNoBorder from '../../../components/SkeletonNoBorder'
+import { forwardRef, useImperativeHandle } from 'react'
 
-const SubjectLabel = ( { search } : { search?:string | null } ) => {
 
-    const { data, isFetching, error } = useQuery({
+interface SubjectLabelProps {
+    search: string | null;
+}
+
+export interface SubjectLabelRef {
+    reload : () => void
+
+}
+const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }, ref ) => {
+
+    const { data, isFetching, error, refetch } = useQuery({
         queryKey: ['subjects'],
         queryFn: async () => {
             const res =  await axios.get(`${config.baseUri}/api/search-label-subjects/s?key=${search}`)
@@ -19,11 +29,21 @@ const SubjectLabel = ( { search } : { search?:string | null } ) => {
         refetchOnWindowFocus: false
     })
 
+    useImperativeHandle(ref, ()=> ({
+        reload() {
+            refetch()
+        }
+    }))
+
     if (isFetching) {
         return (
             <SkeletonNoBorder />
         );
     }
+
+    // useEffect(()=>{
+    //     console.log(search);
+    // },[])
     
 
     if(error){
@@ -52,6 +72,6 @@ const SubjectLabel = ( { search } : { search?:string | null } ) => {
         )}
     </div>
   )
-}
+})
 
 export default SubjectLabel
