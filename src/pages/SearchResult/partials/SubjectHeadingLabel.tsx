@@ -4,12 +4,20 @@ import { config } from "../../../config/config"
 import type { SubjectHeading } from "../../../types/subjectHeading"
 import { Link } from "react-router"
 import SkeletonNoBorder from "../../../components/SkeletonNoBorder"
+import { forwardRef, useImperativeHandle } from "react"
+
+export interface SubjectHeadingRef {
+    reload : () => void
+}
+
+interface SubjectHeadingProps {
+    search: string | null | undefined
+}
 
 
+const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>(( { search }, ref ) => {
 
-const SubjectHeadingLabel = ( { search } : { search?:string | null } ) => {
-
-    const { data, isFetching, error } = useQuery({
+    const { data, isFetching, error, refetch } = useQuery({
         queryKey: ['subjectHeadings'],
         queryFn: async () => {
             const res =  await axios.get(`${config.baseUri}/api/search-label-subject-headings/s?key=${search}`)
@@ -19,6 +27,12 @@ const SubjectHeadingLabel = ( { search } : { search?:string | null } ) => {
 
         refetchOnWindowFocus: false
     })
+
+    useImperativeHandle(ref, () => ({
+        reload() {
+            refetch()
+        }
+    }))
 
     
     if (isFetching) {
@@ -49,6 +63,6 @@ const SubjectHeadingLabel = ( { search } : { search?:string | null } ) => {
         ))}
     </ul>
   )
-}
+})
 
 export default SubjectHeadingLabel

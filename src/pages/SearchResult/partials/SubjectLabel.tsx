@@ -9,7 +9,7 @@ import { forwardRef, useImperativeHandle } from 'react'
 
 
 interface SubjectLabelProps {
-    search: string | null;
+    search: string | null | undefined;
 }
 
 export interface SubjectLabelRef {
@@ -40,11 +40,6 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }
             <SkeletonNoBorder />
         );
     }
-
-    // useEffect(()=>{
-    //     console.log(search);
-    // },[])
-    
 
     if(error){
         <div>
