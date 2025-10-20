@@ -6,7 +6,7 @@ import { SearchX } from 'lucide-react'
 import axios from 'axios'
 import SkeletonNoBorder from '../../../components/SkeletonNoBorder'
 
-const SubjectLabel = ( { search } : { search?:string } ) => {
+const SubjectLabel = ( { search } : { search?:string | null } ) => {
 
     const { data, isFetching, error } = useQuery({
         queryKey: ['subjects'],

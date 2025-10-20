@@ -25,7 +25,7 @@ export const WelcomeIndex = () => {
   const handleKeyDown = () => {
     const value = searchRef.current?.value.trim() || ""
     //setSearchValue(value)
-    navigate(`/search/${value}`)
+    navigate(`/search?key=${encodeURIComponent(value)}`);
   }
 
   return (

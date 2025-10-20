@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import { SearchX } from "lucide-react";
 import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 
 interface InfoProps {
     title: string;
@@ -15,10 +15,20 @@ interface InfoProps {
 }
 
 
-const SearchResult = ( { search } : { search?:string } ) => {
+interface SearchResultProps {
+    search: string;
+}
+
+export interface SearchResultRef {
+    reload: () => void;
+}
+
+
+const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }, ref ) => {
+
     const [page, setPage] = useState<number>(1)
     
-    const { data, isFetching, error } = useQuery({
+    const { data, isFetching, error, refetch } = useQuery({
         queryKey: ['fetchSearch', page],
         queryFn: async () => {
             const res =  await axios.get(`${config.baseUri}/api/search/s?key=${search}&page=${page}`)
@@ -28,6 +38,13 @@ const SearchResult = ( { search } : { search?:string } ) => {
 
         refetchOnWindowFocus: false
     })
+
+    useImperativeHandle(ref, () => ({
+        reload() {
+            refetch()
+        }
+    }))
+
     
     if(error){
         <div>
@@ -144,6 +161,7 @@ const SearchResult = ( { search } : { search?:string } ) => {
             </div>
         </>
     )
-}
+})
+
 
 export default SearchResult

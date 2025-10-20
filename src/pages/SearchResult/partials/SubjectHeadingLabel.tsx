@@ -7,7 +7,7 @@ import SkeletonNoBorder from "../../../components/SkeletonNoBorder"
 
 
 
-const SubjectHeadingLabel = ( { search } : { search?:string } ) => {
+const SubjectHeadingLabel = ( { search } : { search?:string | null } ) => {
 
     const { data, isFetching, error } = useQuery({
         queryKey: ['subjectHeadings'],
