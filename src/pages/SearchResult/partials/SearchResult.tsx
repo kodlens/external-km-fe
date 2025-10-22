@@ -6,6 +6,7 @@ import { SearchX, View } from "lucide-react";
 import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
 import { forwardRef, useImperativeHandle, useState } from "react";
+import { div } from "framer-motion/client";
 
 interface InfoProps {
     title: string;
@@ -120,14 +121,18 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
                                         </Link>
                                     )}
 
-                                    {item.description && (
-                                        <Link
-                                            to={`/view/article/${item.slug}`}
-                                            target="_blank"
-                                            className="text-xs text-blue-500 hover:underline"
-                                        >
-                                            <View size={12} /> {item.slug}
-                                        </Link>
+                                    { item.description && (
+
+                                        <div className="flex gap-2 items-center">
+                                            <View size={12} />
+                                            <Link
+                                                to={`/view/article/${item.slug}`}
+                                                target="_blank"
+                                                className="text-xs text-blue-500 hover:underline"
+                                            >
+                                                {item.slug}
+                                            </Link>
+                                        </div>
                                     )}
 
                                 </div>
