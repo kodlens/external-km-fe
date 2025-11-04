@@ -8,21 +8,23 @@ import SkeletonNoBorder from '../../../components/SkeletonNoBorder'
 import { forwardRef, useImperativeHandle } from 'react'
 
 
-interface SubjectLabelProps {
+interface Props {
     search: string | null | undefined;
+    subject: string |  null;
 }
 
-export interface SubjectLabelRef {
+export interface BySubjectSubjectLabelRef {
     reload : () => void
 
 }
-const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }, ref ) => {
+const BySubjectSubjectLabel = forwardRef<BySubjectSubjectLabelRef, Props>(( { search, subject }, ref ) => {
 
     const { data, isFetching, error, refetch } = useQuery({
-        queryKey: ['subjects'],
+        queryKey: ['subjects', subject],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search-label-subjects/s?key=${search}`)
+            console.log('usequery: ', search);
 
+            const res =  await axios.get(`${config.baseUri}/api/by-subject/search-label-subjects?key=${search}&subj=${subject}`)
             return res.data
         },
 
@@ -68,4 +70,4 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }
   )
 })
 
-export default SubjectLabel
+export default BySubjectSubjectLabel

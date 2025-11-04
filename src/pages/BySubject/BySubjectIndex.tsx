@@ -1,39 +1,28 @@
+import { useLocation } from "react-router";
+import BySubjectSubjectLabel from "./partials/BySubjectSubjectLabel";
+import BySubjectSubjectHeadingLabel, { type BySubjectSubjectHeadingRef } from "./partials/BySubjectSubjectHeadingLabel";
+import { useEffect, useRef, useState } from "react";
+import { Search } from "lucide-react";
+import BySubjectSearchResult, { type BySubjectSearchResultRef } from "./partials/BySubjectSearchResult";
 
-import { useLocation } from 'react-router';
-import SearchResult, { type SearchResultRef } from './partials/SearchResult';
-import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
-import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
-import { Search } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+const BySubjectIndex = () => {
+
+    const subjectRef = useRef<BySubjectSearchResultRef>(null)
+    const subjectHeadingRef = useRef<BySubjectSubjectHeadingRef>(null)
+    const searchRef = useRef<BySubjectSearchResultRef>(null)
 
 
-const SearchResultIndex = () => {
-
-    //const { search } = useParams<{ search: string }>();
-    const { search} = useLocation(); // gives "?key=something"
+    const { search } = useLocation(); // gives "?key=something"
     const query = new URLSearchParams(search);
     const key = query.get("key");
-    const subject = query.get("subject");
-    const sh = query.get("sh");
+    const subject = query.get("subj");
 
-    
-    
-    const searchRef = useRef<SearchResultRef>(null)
-    const subjectRef = useRef<SubjectLabelRef>(null)
-    const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
 
-    const [textSearch, setTextSearch] = useState<string>(key || "");
-
-    // update textSearch whenever the URL param changes
-    useEffect(() => {
-        setTextSearch(key || "");
-    }, []);
-    
+    const [textSearch, setTextSearch] = useState<string>(key ? key : '')
+    console.log(key);    
 
     const handleKeyDown = () => {
-        searchRef.current?.reload()
-        subjectRef.current?.reload()
-        subjectHeadingRef.current?.reload()
+
     }
 
     return (
@@ -45,13 +34,13 @@ const SearchResultIndex = () => {
                     {/* Topics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📂 Subjects</h2>
-                        <SubjectLabel ref={subjectRef} search={textSearch}/>
+                        <BySubjectSubjectLabel ref={subjectRef} search={textSearch} subject={subject} />
                     </div>
 
                     {/* Subtopics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} />
+                        <BySubjectSubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={subject} />
                     </div>
                 </aside>
 
@@ -63,7 +52,7 @@ const SearchResultIndex = () => {
                     <div className="w-full flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white mb-6">
                         <input
                             type="text"
-                           
+
                             placeholder="Search collections, innovations, technology, news & events, topics, trends..."
                             className="flex-1 px-4 py-3 md:px-6 md:py-4 text-gray-700 outline-none placeholder:text-gray-400"
                             onKeyDown={(e) => {
@@ -93,11 +82,11 @@ const SearchResultIndex = () => {
                         Search: {textSearch}
                     </div>
 
-                    <SearchResult ref={searchRef} search={textSearch} />
+                    <BySubjectSearchResult ref={searchRef} search={textSearch} subject={subject}/>
                 </main>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default SearchResultIndex;
+export default BySubjectIndex
