@@ -77,7 +77,7 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
 
     const handlePageChange = (pageNo:number) => {
          //setPage(num.selected);
-         console.log(pageNo + 1);
+        //  console.log(pageNo + 1);
          setPage(pageNo + 1);
          
     }
@@ -105,10 +105,9 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
                                     </h3>
 
                                     {/* Description */}
-                                    <div
-                                        className="text-sm text-gray-700 mb-3 line-clamp-3"
-                                        dangerouslySetInnerHTML={{ __html: item.description }}
-                                    />
+                                    <div className="text-sm text-gray-700 mb-3 line-clamp-3">
+                                        { item.description_text }
+                                    </div>
 
                                     {/* Source */}
                                     {item.source_url && (
@@ -163,7 +162,7 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
                        handlePageChange(num.selected)
                     }}
                     pageRangeDisplayed={5}
-                    pageCount={data ? data?.total : 0}
+                    pageCount={data ? data?.total / 10 : 0}
                     previousLabel="<"
                 />
             </div>

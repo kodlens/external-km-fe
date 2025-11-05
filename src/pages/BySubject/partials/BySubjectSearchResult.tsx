@@ -105,10 +105,9 @@ const BySubjectSearchResult = forwardRef<BySubjectSearchResultRef, Props>(( { se
                                     </h3>
 
                                     {/* Description */}
-                                    <div
-                                        className="text-sm text-gray-700 mb-3 line-clamp-3"
-                                        dangerouslySetInnerHTML={{ __html: item.description }}
-                                    />
+                                    <div className="text-sm text-gray-700 mb-3 line-clamp-3">
+                                        {item.description_text}
+                                    </div>
 
                                     {/* Source */}
                                     {item.source_url && (
@@ -163,7 +162,7 @@ const BySubjectSearchResult = forwardRef<BySubjectSearchResultRef, Props>(( { se
                        handlePageChange(num.selected)
                     }}
                     pageRangeDisplayed={5}
-                    pageCount={data ? data?.total : 0}
+                    pageCount={data ? data?.total / 10 : 0}
                     previousLabel="<"
                 />
             </div>
