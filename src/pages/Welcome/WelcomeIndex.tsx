@@ -25,7 +25,7 @@ export const WelcomeIndex = () => {
   const handleKeyDown = () => {
     const value = searchRef.current?.value.trim() || ""
     //setSearchValue(value)
-    navigate(`/search?key=${encodeURIComponent(value)}`);
+    navigate(`/search?key=${encodeURIComponent(value)}&subj=all&sh=all`);
   }
 
   return (
@@ -39,10 +39,10 @@ export const WelcomeIndex = () => {
           className="
             mx-auto
             w-full max-w-4xl
-            min-h-[60vh] md:min-h-[50vh]     /* ⬅️ set hero height */
+            min-h-[60vh] md:min-h-[50vh]
             flex flex-col items-center justify-center
             gap-6
-            py-12 md:py-16                    /* ⬅️ comfy vertical padding */
+            py-12 md:py-16
           "
         >
           {/* Hero */}

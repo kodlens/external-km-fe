@@ -13,11 +13,11 @@ const SearchResultIndex = () => {
     const { search} = useLocation(); // gives "?key=something"
     const query = new URLSearchParams(search);
     const key = query.get("key");
-    const subject = query.get("subject");
-    const sh = query.get("sh");
+    const paramSubject = query.get("subj");
+    const paramSh = query.get("sh");
 
-    
-    
+    //const [subject, setSubject] = useState(paramSubject);
+
     const searchRef = useRef<SearchResultRef>(null)
     const subjectRef = useRef<SubjectLabelRef>(null)
     const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
@@ -29,7 +29,6 @@ const SearchResultIndex = () => {
         setTextSearch(key || "");
     }, []);
     
-
     const handleKeyDown = () => {
         searchRef.current?.reload()
         subjectRef.current?.reload()
@@ -45,13 +44,13 @@ const SearchResultIndex = () => {
                     {/* Topics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📂 Subjects</h2>
-                        <SubjectLabel ref={subjectRef} search={textSearch}/>
+                        <SubjectLabel ref={subjectRef}  search={textSearch} />
                     </div>
 
                     {/* Subtopics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} />
+                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={paramSubject} />
                     </div>
                 </aside>
 
@@ -93,7 +92,8 @@ const SearchResultIndex = () => {
                         Search: {textSearch}
                     </div>
 
-                    <SearchResult ref={searchRef} search={textSearch} />
+                    <SearchResult ref={searchRef} search={textSearch} subject={paramSubject} sh={paramSh} />
+                    {/* <SearchResult r search={textSearch} subject={subject} sh={sh} /> */}
                 </main>
             </div>
         </div>

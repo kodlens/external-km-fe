@@ -5,8 +5,8 @@ import { Link } from "react-router";
 import { SearchX, View } from "lucide-react";
 import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
-import { forwardRef, useImperativeHandle, useState } from "react";
-import { div } from "framer-motion/client";
+import { forwardRef,  useImperativeHandle, useState } from "react";
+//import { div } from "framer-motion/client";
 
 interface InfoProps {
     title: string;
@@ -19,22 +19,23 @@ interface InfoProps {
 
 interface SearchResultProps {
     search: string;
+    subject: string | null;
+    sh: string | null;
 }
 
 export interface SearchResultRef {
-    reload: () => void;
+    reload: (subject?: string) => void;
 }
 
 
-const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }, ref ) => {
-
+const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search, subject, sh }, ref  ) => {
+   
     const [page, setPage] = useState<number>(1)
-    
-    const { data, isFetching, error, refetch } = useQuery({
-        queryKey: ['fetchSearch', page],
-        queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search/s?key=${search}&page=${page}`)
 
+    const { data = [], isFetching, error, refetch } = useQuery({
+        queryKey: ['fetchSearch', page, subject, sh],
+        queryFn: async () => {
+            const res =  await axios.get(`${config.baseUri}/api/search/s?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
             return res.data
         },
 
@@ -53,7 +54,6 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
             There is an error occured while fetching the data.
         </div>
     }
-
     
     const redirection = (i: any) => {
         if (i.source_url) {
@@ -76,17 +76,14 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
     }
 
     const handlePageChange = (pageNo:number) => {
-         //setPage(num.selected);
-        //  console.log(pageNo + 1);
-         setPage(pageNo + 1);
-         
+        setPage(pageNo + 1);
     }
 
     return (
         <>
             { !isFetching ? (
                 <>
-                    {data?.data.length > 0 ? (
+                    { data?.data.length > 0 ? (
                         <div className="grid gap-6">
                             {data?.data.map((item: InfoProps, i:number) => (
                                 <div
@@ -162,7 +159,7 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search }
                        handlePageChange(num.selected)
                     }}
                     pageRangeDisplayed={5}
-                    pageCount={data ? data?.total / 10 : 0}
+                    pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
                     previousLabel="<"
                 />
             </div>
