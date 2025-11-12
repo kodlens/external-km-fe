@@ -1,33 +1,35 @@
 
-import { useLocation } from 'react-router';
+import { useParams } from 'react-router';
 
 import { Search } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import type { SearchResultRef } from '../SearchResult/partials/SearchResult';
 import type { SubjectLabelRef } from '../SearchResult/partials/SubjectLabel';
 import type { SubjectHeadingRef } from '../SearchResult/partials/SubjectHeadingLabel';
-import SubjectLabel from '../SearchResult/partials/SubjectLabel';
-import SubjectHeadingLabel from '../SearchResult/partials/SubjectHeadingLabel';
-import SearchResult from '../SearchResult/partials/SearchResult';
+
+import SearchResult from './partials/SearchResult';
+
+import SubjectLabel from './partials/SubjectLabel';
+import SubjectHeadingLabel from './partials/SubjectHeadingLabel';
 
 
-const SearchResultIndex = () => {
+const SubjectIndex = () => {
 
-    //const { search } = useParams<{ search: string }>();
-    const { search } = useLocation(); // gives "?key=something"
-    const query = new URLSearchParams(search);
-    const key = query.get("key"); // 👉 "something"
+    const { slug } = useParams();
+    // const { search } = useLocation(); // gives "?key=something"
+    // const query = new URLSearchParams(search);
+    // const key = query.get("key"); // 👉 "something"
+
     const searchRef = useRef<SearchResultRef>(null)
     const subjectRef = useRef<SubjectLabelRef>(null)
     const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
 
-    const [textSearch, setTextSearch] = useState<string>(key || "");
+    const [textSearch, setTextSearch] = useState<string>("");
 
     // update textSearch whenever the URL param changes
-    useEffect(() => {
-        setTextSearch(key || "");
-    }, []);
-    
+    // useEffect(() => {
+    //     setTextSearch(key || "");
+    // }, []);
 
     const handleKeyDown = () => {
         searchRef.current?.reload()
@@ -43,14 +45,14 @@ const SearchResultIndex = () => {
                 <aside className="lg:w-64 w-full bg-white shadow rounded-xl border border-gray-100 p-6 space-y-6">
                     {/* Topics */}
                     <div>
-                        <h2 className="font-semibold text-gray-800 mb-4">📂 Subjects</h2>
+                        <h2 className="font-semibold text-gray-800 mb-4">📂 Classes</h2>
                         <SubjectLabel ref={subjectRef} search={textSearch} />
                     </div>
 
                     {/* Subtopics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} />
+                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={slug ? slug : ''} />
                     </div>
                 </aside>
 
@@ -89,15 +91,15 @@ const SearchResultIndex = () => {
                         📚 Digital Collections
                     </h2>
 
-                    <div className='my-2'>
+                    {/* <div className='my-2'>
                         Search: {textSearch}
-                    </div>
+                    </div> */}
 
-                    <SearchResult ref={searchRef} search={textSearch} />
+                    <SearchResult ref={searchRef} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
                 </main>
             </div>
         </div>
     );
 };
 
-export default SearchResultIndex;
+export default SubjectIndex;

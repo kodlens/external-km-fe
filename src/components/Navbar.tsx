@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const Navbar = () => {
     return (
         <nav className="relative top-0 left-0 w-full bg-primary/90 backdrop-blur-md z-50 shadow-md">
@@ -9,12 +11,12 @@ const Navbar = () => {
 
                 {/* Links */}
                 <div className="flex gap-6 text-white">
-                    <a
-                        href="#search"
+                    <Link
+                        to="/"
                         className="hover:text-white/80 transition-colors text-sm font-medium"
                     >
-                        Search
-                    </a>
+                        Main Search
+                    </Link>
                     {/* <a
                         href="#subjects"
                         className="hover:text-white/80 transition-colors text-sm font-medium"

@@ -1,34 +1,37 @@
 
-import { useLocation } from 'react-router';
-import SearchResult, { type SearchResultRef } from './partials/SearchResult';
-import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
-import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
+import { useParams } from 'react-router';
+
 import { Search } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import type { SearchResultRef } from '../SearchResult/partials/SearchResult';
+import type { SubjectLabelRef } from '../SearchResult/partials/SubjectLabel';
+import type { SubjectHeadingRef } from '../SearchResult/partials/SubjectHeadingLabel';
+//import SubjectLabel from '../SearchResult/partials/SubjectLabel';
+//import SubjectHeadingLabel from '../SearchResult/partials/SubjectHeadingLabel';
+import SearchResult from '../SearchResult/partials/SearchResult';
+import SubjectLabel from '../SearchResult/partials/SubjectLabel';
+import SubjectHeadingLabel from '../SearchResult/partials/SubjectHeadingLabel';
 
 
-const SearchResultIndex = () => {
+const SubjectHeadingIndex = () => {
 
-    //const { search } = useParams<{ search: string }>();
-    const { search} = useLocation(); // gives "?key=something"
-    const query = new URLSearchParams(search);
-    const key = query.get("key");
-    const paramSubject = query.get("subj");
-    const paramSh = query.get("sh");
-
-    //const [subject, setSubject] = useState(paramSubject);
+    const { slug } = useParams();
+    // const { search } = useLocation(); // gives "?key=something"
+    // const query = new URLSearchParams(search);
+    // const key = query.get("key"); // 👉 "something"
 
     const searchRef = useRef<SearchResultRef>(null)
     const subjectRef = useRef<SubjectLabelRef>(null)
     const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
 
-    const [textSearch, setTextSearch] = useState<string>(key || "");
-
-    // update textSearch whenever the URL param changes
-    useEffect(() => {
-        setTextSearch(key || "");
-    }, []);
+    const [textSearch, setTextSearch] = useState<string>("");
     
+    // update textSearch whenever the URL param changes
+    // useEffect(() => {
+    //     setTextSearch(key || "");
+    // }, []);
+    
+
     const handleKeyDown = () => {
         searchRef.current?.reload()
         subjectRef.current?.reload()
@@ -36,7 +39,7 @@ const SearchResultIndex = () => {
     }
 
     return (
-        <div className='min-h-screen mt-10 md:w-7xl md:mx-auto mx-2'>
+        <div className='min-h-screen mt-24 md:w-7xl md:mx-auto mx-2'>
 
             <div className="flex flex-col lg:flex-row gap-6">
                 {/* Sidebar - Topics */}
@@ -44,15 +47,17 @@ const SearchResultIndex = () => {
                     {/* Topics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📂 Classes</h2>
-                        <SubjectLabel ref={subjectRef}  search={textSearch} />
+                        <SubjectLabel ref={subjectRef} search={textSearch} />
                     </div>
 
                     {/* Subtopics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={paramSubject} />
+                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={slug ? slug : 'all'} />
                     </div>
                 </aside>
+
+
 
                 {/* Main Results */}
                 <main className="flex-1">
@@ -83,25 +88,19 @@ const SearchResultIndex = () => {
                     </div>
 
                     <h2 className="mb-4 text-xl font-bold text-gray-800">
+
                         📚 Digital Collections
                     </h2>
 
-                    { textSearch ? (
-                        <div className='my-2'>
-                            Search: {textSearch}
-                        </div>
-                    ) : (
-                        null
-                    )}
-                   
+                    {/* <div className='my-2'>
+                        Search: {textSearch}
+                    </div> */}
 
-                    <SearchResult ref={searchRef} search={textSearch} subject={paramSubject} sh={paramSh} />
-                    {/* <SearchResult r search={textSearch} subject={subject} sh={sh} /> */}
-                    
+                    <SearchResult ref={searchRef} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
                 </main>
             </div>
         </div>
     );
 };
 
-export default SearchResultIndex;
+export default SubjectHeadingIndex;
