@@ -33,7 +33,6 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }
 
     useImperativeHandle(ref, ()=> ({
         reload() {
-          
             refetch()
         }
     }))

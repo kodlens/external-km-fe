@@ -23,7 +23,6 @@ const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>((
         queryKey: ['subjectHeadings', subject],
         queryFn: async () => {
             const res = await axios.get(`${config.baseUri}/api/search-label-subject-headings/s?key=${search}&subj=${subject}`)
-
             return res.data
         },
 
@@ -71,7 +70,7 @@ const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>((
             </ul>
         ) : (
              <div className="flex items-center gap-2 text-gray-500 italic text-sm">
-                <SearchX size={16} /> No subject headings found
+                <SearchX size={16} /> No subject headings found.
             </div>
         ) 
     )
