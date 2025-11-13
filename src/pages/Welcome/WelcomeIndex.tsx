@@ -108,7 +108,7 @@ export const WelcomeIndex = () => {
       <section id="subjects" className="bg-gray-50 py-16">
         <div className="lg:max-w-7xl mx-auto px-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">
-            Explore Class
+            Explore Our Classes
           </h2>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
             Browse through curated knowledge areas — find insights, topics, and
