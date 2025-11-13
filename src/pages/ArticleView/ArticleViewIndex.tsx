@@ -111,11 +111,7 @@ export default function ArticleView() {
     );
   }
 
-  const metaChips = [
-    article.content_type ? { icon: <UserRound size={14} />, label: article.content_type } : null,
-    article.region ? { icon: <Globe2 size={14} />, label: article.region } : null,
-  ].filter(Boolean) as any[];
-
+  
   return (
     <div className="max-w-7xl flex">
       <ArticleContent />
