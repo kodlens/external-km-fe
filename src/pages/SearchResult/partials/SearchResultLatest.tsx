@@ -14,6 +14,7 @@ interface InfoProps {
     description_text?: string;
     slug: string;
     source_url: string;
+    publish_date: string
 }
 
 
@@ -23,19 +24,19 @@ interface SearchResultProps {
     sh: string | null;
 }
 
-export interface SearchResultRef {
+export interface SearchResultLatestRef {
     reload: (subject?: string) => void;
 }
 
 
-const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search, subject, sh }, ref  ) => {
+const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(( { search, subject, sh }, ref  ) => {
    
     const [page, setPage] = useState<number>(1)
 
     const { data = [], isFetching, error, refetch } = useQuery({
-        queryKey: ['fetchSearch', page, subject, sh],
+        queryKey: ['fetchSearchLatest', page, subject, sh],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search/s?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
+            const res =  await axios.get(`${config.baseUri}/api/search/latest?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
             return res.data
         },
 
@@ -100,6 +101,7 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search, 
                                             {item.title}
                                         </Link>
                                     </h3>
+                                    <h4>{item.publish_date}</h4>
 
                                     {/* Description */}
                                     <div className="text-sm text-gray-700 mb-3 line-clamp-3">
@@ -168,4 +170,4 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(( { search, 
 })
 
 
-export default SearchResult
+export default SearchResultLatest

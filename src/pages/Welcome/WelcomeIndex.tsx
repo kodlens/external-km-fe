@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import { Search } from "lucide-react"
 import WelcomeHeroWithSearch from "../../components/WelcomeHeroWithSearch"
 //import ResultIndex from "../Result/ResultIndex"

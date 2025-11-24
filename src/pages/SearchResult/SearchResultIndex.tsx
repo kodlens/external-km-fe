@@ -1,10 +1,12 @@
 
 import { useLocation } from 'react-router';
-import SearchResult, { type SearchResultRef } from './partials/SearchResult';
+import { type SearchResultLatestRef } from './partials/SearchResultLatest';
 import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
 import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
 import { Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import SearchResultLatest from './partials/SearchResultLatest';
+import SearchResultOthers, { type SearchResultOthersRef } from './partials/SearchResultOthers';
 
 
 const SearchResultIndex = () => {
@@ -18,7 +20,9 @@ const SearchResultIndex = () => {
 
     //const [subject, setSubject] = useState(paramSubject);
 
-    const searchRef = useRef<SearchResultRef>(null)
+    const searchRefLatest = useRef<SearchResultLatestRef>(null)
+    const searchRefOthers = useRef<SearchResultOthersRef>(null)
+
     const subjectRef = useRef<SubjectLabelRef>(null)
     const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
 
@@ -30,7 +34,9 @@ const SearchResultIndex = () => {
     }, []);
     
     const handleKeyDown = () => {
-        searchRef.current?.reload()
+        searchRefLatest.current?.reload()
+        searchRefOthers.current?.reload()
+
         subjectRef.current?.reload()
         subjectHeadingRef.current?.reload()
     }
@@ -56,11 +62,10 @@ const SearchResultIndex = () => {
 
                 {/* Main Results */}
                 <main className="flex-1">
-
+                    
                     <div className="w-full flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white mb-6">
                         <input
                             type="text"
-                           
                             placeholder="Search collections, innovations, technology, news & events, topics, trends..."
                             className="flex-1 px-4 py-3 md:px-6 md:py-4 text-gray-700 outline-none placeholder:text-gray-400"
                             onKeyDown={(e) => {
@@ -86,6 +91,8 @@ const SearchResultIndex = () => {
                         📚 Digital Collections
                     </h2>
 
+                    <p>Classes: {paramSubject}</p>
+
                     { textSearch ? (
                         <div className='my-2'>
                             Search: {textSearch}
@@ -95,9 +102,23 @@ const SearchResultIndex = () => {
                     )}
                    
 
-                    <SearchResult ref={searchRef} search={textSearch} subject={paramSubject} sh={paramSh} />
-                    {/* <SearchResult r search={textSearch} subject={subject} sh={sh} /> */}
+                    <div className="flex items-center my-4">
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="mx-4 text-gray-500">Latest</span>
+                        <div className="flex-grow border-t border-gray-300"></div>
+                    </div>
+
+                    <SearchResultLatest ref={searchRefLatest} search={textSearch} subject={paramSubject} sh={paramSh} />
                     
+                    {/* <SearchResult r search={textSearch} subject={subject} sh={sh} /> */}
+                    <div className="flex items-center my-4">
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="mx-4 text-gray-500">You may also want these results</span>
+                        <div className="flex-grow border-t border-gray-300"></div>
+                    </div>
+
+                    <SearchResultOthers ref={searchRefOthers} search={textSearch} subject={paramSubject} sh={paramSh} />
+
                 </main>
             </div>
         </div>

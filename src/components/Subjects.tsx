@@ -80,7 +80,7 @@ const Subjects = () => {
           {/* Header */}
           <div className="bg-gradient-to-r from-primary to-primary/80 p-4">
             <h3 className="text-lg font-bold text-white tracking-wide">
-              <Link to={`/subjects/${item.slug}`}>{item.subject}</Link>
+              <Link to={`/subject/${item.slug}`}>{item.subject}</Link>
             </h3>
           </div>
 
@@ -92,7 +92,7 @@ const Subjects = () => {
                   key={sh.id}
                   className="flex text-sm items-start gap-2 group hover:bg-gray-200 rounded-md p-2 transition"
                 >
-                  <Link to={`/subject-headings/${item.slug}`} className='flex gap-2'>
+                  <Link to={`/subject-heading/${item.slug}`} className='flex gap-2'>
                     <ChevronRight
                       size={18}
                       className="text-primary mt-[2px] group-hover:translate-x-1 transition"

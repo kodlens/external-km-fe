@@ -3,11 +3,11 @@ import { useParams } from 'react-router';
 
 import { Search } from 'lucide-react';
 import { useRef, useState } from 'react';
-import type { SearchResultRef } from '../SearchResult/partials/SearchResult';
+
 import type { SubjectLabelRef } from '../SearchResult/partials/SubjectLabel';
 import type { SubjectHeadingRef } from '../SearchResult/partials/SubjectHeadingLabel';
 
-import SearchResult from './partials/SearchResult';
+import SearchResult, { type SearchResultRef } from './partials/SearchResult';
 
 import SubjectLabel from './partials/SubjectLabel';
 import SubjectHeadingLabel from './partials/SubjectHeadingLabel';

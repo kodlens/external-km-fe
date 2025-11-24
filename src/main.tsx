@@ -24,7 +24,7 @@ createRoot(document.getElementById('root')!).render(
           <Route element={<MainLayout />}>
             <Route index element={<App />} />
             <Route path="/search" element={<SearchResultIndex />} />
-            <Route path="/subjects/:slug" element={<SubjectIndex />} />
+            <Route path="/subject/:slug" element={<SubjectIndex />} />
             <Route path="/subject-headings/:slug" element={<SubjectHeadingIndex />} />
         
             {/* ⬇️ New route for /view/article/:slug */}
