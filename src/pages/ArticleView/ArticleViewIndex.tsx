@@ -7,6 +7,7 @@ import Loader from "../../components/loader/Loader";
 import { ChevronLeft, ExternalLink, Globe2, UserRound } from "lucide-react";
 import { div } from "framer-motion/client";
 import ArticleContent from "./partials/ArticleContent";
+import RelevantStories from "./partials/RelevantStories";
 
 type Info = {
   title: string;
@@ -89,7 +90,7 @@ export default function ArticleView() {
 
   if (!article) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="max-w-4xl mx-auto p-6 min-h-screen">
         <Link to="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800">
           <ChevronLeft size={18} /> Back
         </Link>
@@ -113,9 +114,9 @@ export default function ArticleView() {
 
   
   return (
-    <div className="max-w-7xl flex">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row">
       <ArticleContent />
-    
+      <RelevantStories slug={slug} />
     </div>
   );
 }

@@ -91,7 +91,6 @@ const SearchResultOthers = forwardRef<SearchResultOthersRef, SearchResultProps>(
                                     key={i}
                                     className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition bg-white"
                                 >
-                                    <p>sample result</p>
                                     {/* Title */}
                                     <h3 className="text-lg font-semibold text-blue-600 mb-2">
                                         <Link
@@ -102,7 +101,6 @@ const SearchResultOthers = forwardRef<SearchResultOthersRef, SearchResultProps>(
                                             {item.title}
                                         </Link>
                                     </h3>
-                                    <h4>{item.publish_date}</h4>
 
                                     {/* Description */}
                                     <div className="text-sm text-gray-700 mb-3 line-clamp-3">

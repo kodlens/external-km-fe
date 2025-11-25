@@ -91,8 +91,6 @@ const SearchResultIndex = () => {
                         📚 Digital Collections
                     </h2>
 
-                    <p>Classes: {paramSubject}</p>
-
                     { textSearch ? (
                         <div className='my-2'>
                             Search: {textSearch}

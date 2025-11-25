@@ -101,7 +101,6 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
                                             {item.title}
                                         </Link>
                                     </h3>
-                                    <h4>{item.publish_date}</h4>
 
                                     {/* Description */}
                                     <div className="text-sm text-gray-700 mb-3 line-clamp-3">
@@ -145,7 +144,6 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
             ) : (
                 <MySkeleton />
             )}
-            
 
             <div className="my-4 overflow-x-auto">
                  <ReactPaginate
