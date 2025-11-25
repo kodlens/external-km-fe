@@ -5,17 +5,9 @@ import { config } from '../../../config/config';
 import { useEffect } from 'react';
 import Loader from '../../../components/loader/Loader';
 import { ChevronLeft, ExternalLink, Globe2, UserRound } from 'lucide-react';
+import type { Article } from '../../../types/article';
 
-type Info = {
-  title: string;
-  alias: string; // slug
-  description: string; // HTML
-  content_type?: string; // e.g., 'person'
-  region?: string;       // e.g., 'NCR'
-  source_url?: string | null; // optional if your API returns it
-};
-
-async function fetchArticle(slug: string): Promise<Info | null> {
+async function fetchArticle(slug: string): Promise<Article | null> {
   const { data } = await axios.get(`${config.baseUri}/api/load-article/${slug}`);
   // Expect your API to return either the info object or null/404-like payload
   // Normalize falsy to null so the UI can show "not found".
@@ -77,6 +69,13 @@ const ArticleContent = () => {
       <article className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
         {/* Title */}
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{article?.title}</h1>
+
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <h1>{ article.publish_date ? article?.publish_date : ''}</h1>
 
         {/* Meta */}
         {metaChips.length > 0 || article?.source_url ? (

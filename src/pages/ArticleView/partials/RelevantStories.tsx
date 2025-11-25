@@ -48,6 +48,9 @@ export default function RelevantStories({ slug }: { slug: string }) {
                                 className="block p-3 rounded-lg hover:bg-gray-100 bg-white shadow-sm transition">
 
                                 <h3 className="text-sm font-medium text-gray-800">{article.title}</h3>
+                                <p className="text-xs text-gray-500 mt-1">
+                                    { article.publish_date ? new Date(article?.publish_date).toLocaleDateString() : '' }
+                                </p>
                                 <p className="text-xs text-gray-500 mt-1">Read more →</p>
 
                             </Link>
