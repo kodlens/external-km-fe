@@ -6,6 +6,10 @@ import { useEffect } from 'react';
 import Loader from '../../../components/loader/Loader';
 import { ChevronLeft, ExternalLink, Globe2, UserRound } from 'lucide-react';
 import type { Article } from '../../../types/article';
+import dayjs from 'dayjs';
+//import dayjs from 'dayjs' // ES 2015
+import './style.css'
+import ContentRenderer from './ContentRenderer';
 
 async function fetchArticle(slug: string): Promise<Article | null> {
   const { data } = await axios.get(`${config.baseUri}/api/load-article/${slug}`);
@@ -22,9 +26,7 @@ const ArticleContent = () => {
   const {
     data: article,
     isLoading,
-    isError,
-    error,
-    refetch,
+    
   } = useQuery({
     queryKey: ["article", slug],
     queryFn: () => fetchArticle(slug),
@@ -75,7 +77,7 @@ const ArticleContent = () => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
-        <h1>{ article.publish_date ? article?.publish_date : ''}</h1>
+        <h1 className='font-bold text-gray-500'>{ dayjs(article?.publish_date).format("MMM DD, YYYY") }</h1>
 
         {/* Meta */}
         {metaChips.length > 0 || article?.source_url ? (
@@ -104,16 +106,17 @@ const ArticleContent = () => {
         ) : null}
 
         {/* Content */}
-        <div
-          className="prose prose-sm md:prose lg:prose-lg max-w-none mt-6 text-gray-800"
+        <ContentRenderer html={article ? article.description : ''} />
+        {/* <div
+          className="prose prose-sm md:prose lg:prose-lg max-w-none mt-6 text-gray-800 paragraph"
           // Your `description` already contains sanitized/controlled HTML from your DB.
           dangerouslySetInnerHTML={{ __html: article ? article.description : '' }}
-        />
+        /> */}
 
         {/* Footer actions */}
         <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
           <div className="text-xs text-gray-500">
-            Alias: <span className="font-mono">{article?.alias}</span>
+            Alias: <span className="font-mono">{article?.slug}</span>
           </div>
           <Link
             to="/"
