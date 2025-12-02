@@ -7,7 +7,7 @@ import { Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import SearchResultLatest from './partials/SearchResultLatest';
 import SearchResultOthers, { type SearchResultOthersRef } from './partials/SearchResultOthers';
-import SearchFromGoogle from './partials/SearchFromGoogle';
+//import SearchFromGoogle from './partials/SearchFromGoogle';
 
 
 const SearchResultIndex = () => {
@@ -118,11 +118,11 @@ const SearchResultIndex = () => {
 
                     <SearchResultOthers ref={searchRefOthers} search={textSearch} subject={paramSubject} sh={paramSh} />
 
-                    <div className="flex items-center my-4">
+                    {/* <div className="flex items-center my-4">
                         <div className="flex-grow border-t border-gray-300"></div>
-                        <span className="mx-4 text-gray-500">Search from Google</span>
-                        <div className="flex-grow border-t border-gray-300"></div>
-                    </div>
+                       <span className="mx-4 text-gray-500">Search from Google</span>
+                       <div className="flex-grow border-t border-gray-300"></div>
+                    </div> */}
 
                     {/* <SearchFromGoogle search={textSearch} /> */}
 

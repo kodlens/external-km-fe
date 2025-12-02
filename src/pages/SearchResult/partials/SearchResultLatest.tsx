@@ -60,7 +60,7 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
         if (i.source_url) {
             return `${i.source_url}/article/${i.slug}`
         } else {
-            return `view/article/${i.slug}`
+            return `/view/article/${i.slug}`
         }
     }
 
@@ -94,7 +94,8 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
                                     {/* Title */}
                                     <h3 className="text-lg font-semibold text-blue-600 mb-2">
                                         <Link
-                                            to={redirection(item)}
+                                           
+                                            to={`/view/article/${item.slug}`}
                                             target="_blank"
                                             className="hover:underline"
                                         >
@@ -107,27 +108,17 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
                                         { item.description_text }
                                     </div>
 
-                                    {/* Source */}
-                                    {item.source_url && (
-                                        <Link
-                                            to={item.source_url}
-                                            target="_blank"
-                                            className="text-xs text-blue-500 hover:underline"
-                                        >
-                                            {item.source_url}
-                                        </Link>
-                                    )}
 
                                     { item.description && (
 
                                         <div className="flex gap-2 items-center">
                                             <View size={12} />
                                             <Link
-                                                to={`/view/article/${item.slug}`}
+                                                to={redirection(item)}
                                                 target="_blank"
                                                 className="text-xs text-blue-500 hover:underline"
                                             >
-                                                {item.slug}
+                                                {item.source_url}/{item.slug}
                                             </Link>
                                         </div>
                                     )}

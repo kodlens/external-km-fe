@@ -3,8 +3,8 @@ import axios from "axios";
 import { Link } from "react-router";
 import { config } from "../../../config/config";
 import type { Article } from "../../../types/article";
-import Skeleton from "../../../components/Skeleton";
-import SkeletonNoBorder from "../../../components/SkeletonNoBorder";
+import dayjs from 'dayjs'
+
 
 export default function RelevantStories({ slug }: { slug: string }) {
 
@@ -13,7 +13,8 @@ export default function RelevantStories({ slug }: { slug: string }) {
         queryFn: async () => {
             const res = await axios.get(`${config.baseUri}/api/load-related-article/${slug}`)
             return res.data
-        }
+        },
+        refetchOnWindowFocus: false,
     });
 
 
@@ -49,7 +50,7 @@ export default function RelevantStories({ slug }: { slug: string }) {
 
                                 <h3 className="text-sm font-medium text-gray-800">{article.title}</h3>
                                 <p className="text-xs text-gray-500 mt-1">
-                                    { article.publish_date ? new Date(article?.publish_date).toLocaleDateString() : '' }
+                                    { article.publish_date ? dayjs(article?.publish_date).format('MMM DD, YYYY') : '' }
                                 </p>
                                 <p className="text-xs text-gray-500 mt-1">Read more →</p>
 
