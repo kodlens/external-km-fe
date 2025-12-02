@@ -4,8 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { config } from "../../config/config";
 import Loader from "../../components/loader/Loader";
-import { ChevronLeft, ExternalLink, Globe2, UserRound } from "lucide-react";
-import { div } from "framer-motion/client";
+import { ChevronLeft } from "lucide-react";
 import ArticleContent from "./partials/ArticleContent";
 import RelevantStories from "./partials/RelevantStories";
 
