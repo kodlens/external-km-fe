@@ -87,7 +87,6 @@ const SubjectIndex = () => {
                     </div>
 
                     <h2 className="mb-4 text-xl font-bold text-gray-800">
-
                         📚 Digital Collections
                     </h2>
 

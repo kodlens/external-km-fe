@@ -14,4 +14,5 @@ export type Article = {
     active:number;
     created_at:Date;
     updated_at:Date;
+    
 }
