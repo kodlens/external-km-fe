@@ -14,7 +14,7 @@ interface SearchResultProps {
     sh: string | null;
 }
 
-export interface SearchResultRef {
+export interface SearchResultRefOthers {
     reload: (subject?: string) => void;
 }
 

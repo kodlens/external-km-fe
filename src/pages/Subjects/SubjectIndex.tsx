@@ -9,16 +9,18 @@ import type { SubjectHeadingRef } from '../SearchResult/partials/SubjectHeadingL
 
 import SubjectLabel from './partials/SubjectLabel';
 import SubjectHeadingLabel from './partials/SubjectHeadingLabel';
-import SearchResultLatest, { type SearchResultRef } from './partials/SearchResultLatest';
+import SearchResultLatest, { type SearchResultRefLatest } from './partials/SearchResultLatest';
 
-import SearchResultOthers from "./partials/SearchResultOthers.tsx";
+import SearchResultOthers, {type SearchResultRefOthers} from "./partials/SearchResultOthers.tsx";
 
 
 const SubjectIndex = () => {
 
     const { slug } = useParams();
 
-    const searchRef = useRef<SearchResultRef>(null)
+    const searchRefLatest = useRef<SearchResultRefLatest>(null)
+    const searchRefOthers = useRef<SearchResultRefOthers>(null)
+
     const subjectRef = useRef<SubjectLabelRef>(null)
     const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
 
@@ -30,7 +32,9 @@ const SubjectIndex = () => {
     // }, []);
 
     const handleKeyDown = () => {
-        searchRef.current?.reload()
+        searchRefLatest.current?.reload()
+        searchRefOthers.current?.reload()
+
         subjectRef.current?.reload()
         subjectHeadingRef.current?.reload()
     }
@@ -92,7 +96,7 @@ const SubjectIndex = () => {
                         Search: {textSearch}
                     </div> */}
 
-                    <SearchResultLatest ref={searchRef} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
+                    <SearchResultLatest ref={searchRefLatest} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
 
                     <div className="flex items-center my-4">
                         <div className="flex-grow border-t border-gray-300"></div>
@@ -100,7 +104,7 @@ const SubjectIndex = () => {
                         <div className="flex-grow border-t border-gray-300"></div>
                     </div>
 
-                    <SearchResultOthers ref={searchRef} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
+                    <SearchResultOthers ref={searchRefOthers} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
                 </main>
             </div>
         </div>
