@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { config } from "../../../config/config";
 import axios from "axios";
-import { Link } from "react-router";
-import { SearchX, View } from "lucide-react";
 import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
 import { forwardRef,  useImperativeHandle, useState } from "react";

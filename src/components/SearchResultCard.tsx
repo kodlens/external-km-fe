@@ -3,9 +3,8 @@ import type { Article } from '../types/article'
 import { View } from 'lucide-react';
 
 const SearchResultCard = ( { data } : { data:Article[] }) => {
-
-       
-    const redirection = (i: any) => {
+  
+    const redirection = (i: Article) => {
         if (i.source_url) {
             return `${i.source_url}/article/${i.slug}`
         } else {
@@ -13,7 +12,7 @@ const SearchResultCard = ( { data } : { data:Article[] }) => {
         }
     }
 
-
+   
     return (
         <div className="grid gap-6">
             {data?.map((item:Article, i:number) => (

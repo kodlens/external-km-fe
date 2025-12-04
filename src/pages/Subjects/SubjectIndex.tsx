@@ -7,18 +7,16 @@ import { useRef, useState } from 'react';
 import type { SubjectLabelRef } from '../SearchResult/partials/SubjectLabel';
 import type { SubjectHeadingRef } from '../SearchResult/partials/SubjectHeadingLabel';
 
-import SearchResult, { type SearchResultRef } from './partials/SearchResult';
-
 import SubjectLabel from './partials/SubjectLabel';
 import SubjectHeadingLabel from './partials/SubjectHeadingLabel';
+import SearchResultLatest, { type SearchResultRef } from './partials/SearchResultLatest';
+
+import SearchResultOthers from "./partials/SearchResultOthers.tsx";
 
 
 const SubjectIndex = () => {
 
     const { slug } = useParams();
-    // const { search } = useLocation(); // gives "?key=something"
-    // const query = new URLSearchParams(search);
-    // const key = query.get("key"); // 👉 "something"
 
     const searchRef = useRef<SearchResultRef>(null)
     const subjectRef = useRef<SubjectLabelRef>(null)
@@ -38,7 +36,7 @@ const SubjectIndex = () => {
     }
 
     return (
-        <div className='min-h-screen mt-24 md:w-7xl md:mx-auto mx-2'>
+        <div className='min-h-screen mt-10 md:w-7xl md:mx-auto mx-2'>
 
             <div className="flex flex-col lg:flex-row gap-6">
                 {/* Sidebar - Topics */}
@@ -94,7 +92,15 @@ const SubjectIndex = () => {
                         Search: {textSearch}
                     </div> */}
 
-                    <SearchResult ref={searchRef} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
+                    <SearchResultLatest ref={searchRef} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
+
+                    <div className="flex items-center my-4">
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="mx-4 text-gray-500">You may also want these results</span>
+                        <div className="flex-grow border-t border-gray-300"></div>
+                    </div>
+
+                    <SearchResultOthers ref={searchRef} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
                 </main>
             </div>
         </div>

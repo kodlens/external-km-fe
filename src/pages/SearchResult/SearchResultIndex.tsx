@@ -96,10 +96,7 @@ const SearchResultIndex = () => {
                         <div className='my-2'>
                             Search: {textSearch}
                         </div>
-                    ) : (
-                        null
-                    )}
-                   
+                    ) : null}
 
                    
 
