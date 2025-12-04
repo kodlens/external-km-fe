@@ -104,7 +104,6 @@ const SearchResult = forwardRef<SearchResultRef, SearchResultProps>(({ search, s
                     </div>
                 )
             }
-
         </>
     )
 })
