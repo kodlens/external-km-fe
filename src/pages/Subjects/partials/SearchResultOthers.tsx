@@ -19,7 +19,7 @@ export interface SearchResultRefOthers {
 }
 
 
-const SearchResultOthers = forwardRef<SearchResultRef, SearchResultProps>(( { search, subject, sh }, ref  ) => {
+const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(( { search, subject, sh }, ref  ) => {
    
     const [page, setPage] = useState<number>(1)
 
