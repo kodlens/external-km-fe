@@ -99,9 +99,10 @@ const SearchResult = forwardRef<SearchResultRefLatest, SearchResultProps>(({ sea
                         </div>
                     </>
                 ) : (
-                    <div className="flex items-center gap-2 text-gray-500 italic text-sm mt-6">
-                        <SearchX size={18} /> No results found
-                    </div>
+                    // <div className="flex items-center gap-2 text-gray-500 italic text-sm mt-6">
+                    //     <SearchX size={18} /> No results found
+                    // </div>
+                    null
                 )
             }
         </>

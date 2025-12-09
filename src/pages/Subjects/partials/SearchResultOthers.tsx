@@ -5,6 +5,7 @@ import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
 import { forwardRef,  useImperativeHandle, useState } from "react";
 import SearchResultCard from "../../../components/SearchResultCard";
+import { SearchX } from "lucide-react";
 //import { div } from "framer-motion/client";
 
 
@@ -94,7 +95,10 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
                             />
                         </div>
                     </>
-                ) : null
+                ) : 
+                    <div className="flex items-center gap-2 text-gray-500 italic text-sm mt-6">
+                        <SearchX size={18} /> No results found
+                    </div>
             ) : (
                 <MySkeleton />
             )}

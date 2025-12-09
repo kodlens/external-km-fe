@@ -24,7 +24,7 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }
     const { data, isFetching, error, refetch } = useQuery({
         queryKey: ['subjects'],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search-label-subjects/search?key=${search}`)
+            const res =  await axios.get(`${config.baseUri}/api/subject-labels/search?key=${search}&subj=all`)
             //const res =  await axios.get(`${config.baseUri}/api/search?key=${search}&subj=${subject}`)
             return res.data
         },
