@@ -3,8 +3,9 @@ import { config } from "../../../config/config";
 import axios from "axios";
 import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
-import { forwardRef,  useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import SearchResultCard from "../../../components/SearchResultCard";
+import { SearchX } from "lucide-react";
 //import { div } from "framer-motion/client";
 
 
@@ -14,19 +15,19 @@ interface SearchResultProps {
     sh: string | null;
 }
 
-export interface SearchResultRefOthers {
+export interface SearchResultRefLatest {
     reload: (subject?: string) => void;
 }
 
 
-const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(( { search, subject, sh }, ref  ) => {
-   
+const SearchResult = forwardRef<SearchResultRefLatest, SearchResultProps>(({ search, subject, sh }, ref) => {
+
     const [page, setPage] = useState<number>(1)
 
     const { data = [], isFetching, error, refetch } = useQuery({
-        queryKey: ['subjectFetchSearchOthers', page, subject, sh],
+        queryKey: ['subjectFetchSearch', page, subject, sh],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search/others?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
+            const res = await axios.get(`${config.baseUri}/api/search/latest?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
             return res.data
         },
 
@@ -38,7 +39,6 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
             refetch()
         }
     }))
-
 
     if (error) {
         return <div>
@@ -56,23 +56,27 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
         );
     }
 
-    const handlePageChange = (pageNo:number) => {
+
+    if(isFetching){
+        return <MySkeleton />
+    }
+
+    const handlePageChange = (pageNo: number) => {
         setPage(pageNo + 1);
     }
 
     return (
         <>
-            { !isFetching ? (
-                
+            {
                 data?.data.length > 0 ? (
                     <>
                         <div className="flex items-center my-4">
                             <div className="flex-grow border-t border-gray-300"></div>
-                            <span className="mx-4 text-gray-500">You may also want these results</span>
+                            <span className="mx-4 text-gray-500">Latest</span>
                             <div className="flex-grow border-t border-gray-300"></div>
                         </div>
 
-                        <SearchResultCard data={data?.data} />
+                        <SearchResultCard data={data.data} />
 
                         <div className="my-4 overflow-x-auto">
 
@@ -86,7 +90,7 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
                                 breakClassName="pagination-button"
                                 nextLabel=">"
                                 onPageChange={(num) => {
-                                handlePageChange(num.selected)
+                                    handlePageChange(num.selected)
                                 }}
                                 pageRangeDisplayed={5}
                                 pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
@@ -94,13 +98,15 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
                             />
                         </div>
                     </>
-                ) : null
-            ) : (
-                <MySkeleton />
-            )}
+                ) : (
+                    <div className="flex items-center gap-2 text-gray-500 italic text-sm mt-6">
+                        <SearchX size={18} /> No results found
+                    </div>
+                )
+            }
         </>
     )
 })
 
 
-export default SearchResultOthers
+export default SearchResult

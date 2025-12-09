@@ -9,6 +9,7 @@ import { forwardRef, useImperativeHandle } from 'react'
 
 interface SubjectLabelProps {
     search: string | null | undefined;
+
 }
 
 export interface SubjectLabelRef {
@@ -23,7 +24,7 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }
     const { data, isFetching, error, refetch } = useQuery({
         queryKey: ['subjects'],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search-label-subjects/s?key=${search}&subj=all`)
+            const res =  await axios.get(`${config.baseUri}/api/search-label-subjects/search?key=${search}`)
             //const res =  await axios.get(`${config.baseUri}/api/search?key=${search}&subj=${subject}`)
             return res.data
         },

@@ -9,6 +9,7 @@ import { forwardRef, useImperativeHandle } from 'react'
 
 interface SubjectLabelProps {
     search: string | null | undefined;
+    subject?: string;
 }
 
 export interface SubjectLabelRef {
@@ -16,14 +17,14 @@ export interface SubjectLabelRef {
 }
 
 
-const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }, ref ) => {
+const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search, subject }, ref ) => {
      
     //const searchRef = useRef<SearchResultRef>(null)
 
     const { data, isFetching, error, refetch } = useQuery({
-        queryKey: ['subjects'],
+        queryKey: ['subjectSubjects'],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search-label-subjects/s?key=${search}&subj=all`)
+            const res =  await axios.get(`${config.baseUri}/api/subject-labels/search?key=${search}&subj=${subject}`)
             //const res =  await axios.get(`${config.baseUri}/api/search?key=${search}&subj=${subject}`)
             return res.data
         },
@@ -57,7 +58,7 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }
                 data.map((subject:Subject, i:number) => (
                     <Link
                         key={i}
-                        to={`/search?key=${search}&subj=${subject.slug}&sh=all`}
+                        to={`/subject/${subject.slug}/search?key=${search}&subj=${subject.slug}&sh=all`}
                         className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition hover:cursor-pointer"
                     >
                         {subject.subject} ({subject.count})

@@ -24,7 +24,7 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
     const [page, setPage] = useState<number>(1)
 
     const { data = [], isFetching, error, refetch } = useQuery({
-        queryKey: ['subjectFetchSearchOthers', page, subject, sh],
+        queryKey: ['fetchSearch', page, subject, sh],
         queryFn: async () => {
             const res =  await axios.get(`${config.baseUri}/api/search/others?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
             return res.data
@@ -68,7 +68,7 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
                     <>
                         <div className="flex items-center my-4">
                             <div className="flex-grow border-t border-gray-300"></div>
-                            <span className="mx-4 text-gray-500">You may also want these results</span>
+                            <span className="mx-4 text-gray-500">Latest</span>
                             <div className="flex-grow border-t border-gray-300"></div>
                         </div>
 

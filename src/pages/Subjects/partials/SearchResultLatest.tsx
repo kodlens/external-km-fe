@@ -25,7 +25,7 @@ const SearchResult = forwardRef<SearchResultRefLatest, SearchResultProps>(({ sea
     const [page, setPage] = useState<number>(1)
 
     const { data = [], isFetching, error, refetch } = useQuery({
-        queryKey: ['subjectFetchSearch', page, subject, sh],
+        queryKey: ['subjectFetchSearchLatest', page, subject, sh],
         queryFn: async () => {
             const res = await axios.get(`${config.baseUri}/api/search/latest?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
             return res.data

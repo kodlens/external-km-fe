@@ -1,5 +1,5 @@
 
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 
 import { Search } from 'lucide-react';
 import { useRef, useState } from 'react';
@@ -16,7 +16,16 @@ import SearchResultOthers, {type SearchResultRefOthers} from "./partials/SearchR
 
 const SubjectIndex = () => {
 
-    const { slug } = useParams();
+    //const { slug } = useParams();
+
+    const { search} = useLocation(); // gives "?key=something"
+    const query = new URLSearchParams(search);
+    const key = query.get("key");
+    const paramSubject = query.get("subj");
+    const paramSh = query.get("sh");
+
+    console.log(paramSubject);
+    
 
     const searchRefLatest = useRef<SearchResultRefLatest>(null)
     const searchRefOthers = useRef<SearchResultRefOthers>(null)
@@ -30,7 +39,8 @@ const SubjectIndex = () => {
     // useEffect(() => {
     //     setTextSearch(key || "");
     // }, []);
-
+    
+    
     const handleKeyDown = () => {
         searchRefLatest.current?.reload()
         searchRefOthers.current?.reload()
@@ -48,13 +58,13 @@ const SubjectIndex = () => {
                     {/* Topics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📂 Classes</h2>
-                        <SubjectLabel ref={subjectRef} search={textSearch} />
+                        <SubjectLabel ref={subjectRef} search={textSearch} subject={paramSubject ? paramSubject : ''} />
                     </div>
 
                     {/* Subtopics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={slug ? slug : ''} />
+                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={paramSubject ? paramSubject : ''} />
                     </div>
                 </aside>
 
@@ -96,15 +106,9 @@ const SubjectIndex = () => {
                         Search: {textSearch}
                     </div> */}
 
-                    <SearchResultLatest ref={searchRefLatest} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
-
-                    <div className="flex items-center my-4">
-                        <div className="flex-grow border-t border-gray-300"></div>
-                        <span className="mx-4 text-gray-500">You may also want these results</span>
-                        <div className="flex-grow border-t border-gray-300"></div>
-                    </div>
-
-                    <SearchResultOthers ref={searchRefOthers} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
+                    <SearchResultLatest ref={searchRefLatest} search={textSearch} subject={paramSubject ? paramSubject : ''} sh={paramSh} />
+                    
+                    <SearchResultOthers ref={searchRefOthers} search={textSearch} subject={paramSubject ? paramSubject : ''} sh={paramSh} />
                 </main>
             </div>
         </div>

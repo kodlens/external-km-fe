@@ -13,7 +13,7 @@ export interface SubjectHeadingRef {
 
 interface SubjectHeadingProps {
     search: string | null | undefined
-    subject: string | null;
+    subject?: string;
 }
 
 
@@ -22,7 +22,7 @@ const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>((
     const { data, isFetching, error, refetch } = useQuery({
         queryKey: ['subjectHeadings', subject],
         queryFn: async () => {
-            const res = await axios.get(`${config.baseUri}/api/search-label-subject-headings/s?key=${search}&subj=${subject}`)
+            const res = await axios.get(`${config.baseUri}/api/search-label-subject-headings/search?key=${search}&subj=${subject}`)
             return res.data
         },
 

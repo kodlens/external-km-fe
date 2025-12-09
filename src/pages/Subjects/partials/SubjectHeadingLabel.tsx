@@ -19,10 +19,11 @@ interface SubjectHeadingProps {
 
 const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>(({ search, subject }, ref) => {
 
+    
     const { data, isFetching, error, refetch } = useQuery({
-        queryKey: ['subjectHeadings', subject],
+        queryKey: ['subjectSubjectHeadings', subject],
         queryFn: async () => {
-            const res = await axios.get(`${config.baseUri}/api/search-label-subject-headings/s?key=${search}&subj=${subject}`)
+            const res = await axios.get(`${config.baseUri}/api/subject-headings/search?key=${search}&subj=${subject}`)
             return res.data
         },
 
@@ -60,7 +61,7 @@ const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>((
                         className="pl-2 border-l-2 border-blue-200 hover:border-blue-500 hover:text-blue-700 transition"
                     >
                         <Link 
-                            to={`/search?key=${search}&subj=${subject}&sh=${subH.slug}`}>
+                            to={`/subject/search?key=${search}&subj=${subject}&sh=${subH.slug}`}>
                                 {subH.subject_heading} ( {subH.count} )
                         </Link>
                         {/* <Link to={`/by-sh?sh=${subH.slug}`}>{subH.subject_heading} ( {subH.count} )</Link> */}

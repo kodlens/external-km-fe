@@ -4,13 +4,14 @@ import { useParams } from 'react-router';
 import { Search } from 'lucide-react';
 import { useRef, useState } from 'react';
 // import type { SearchResultRef } from '../SearchResult/partials/SearchResultLatest';
-import type { SubjectLabelRef } from '../SearchResult/partials/SubjectLabel';
 import type { SubjectHeadingRef } from '../SearchResult/partials/SubjectHeadingLabel';
 //import SubjectLabel from '../SearchResult/partials/SubjectLabel';
 //import SubjectHeadingLabel from '../SearchResult/partials/SubjectHeadingLabel';
 import SearchResult from '../SearchResult/partials/SearchResultLatest';
 import SubjectLabel from '../SearchResult/partials/SubjectLabel';
 import SubjectHeadingLabel from '../SearchResult/partials/SubjectHeadingLabel';
+import type { SearchResultRefLatest } from './partials/SearchResultLatest';
+import type { SearchResultRefOthers } from './partials/SearchResultOthers';
 
 
 const SubjectHeadingIndex = () => {
@@ -20,8 +21,9 @@ const SubjectHeadingIndex = () => {
     // const query = new URLSearchParams(search);
     // const key = query.get("key"); // 👉 "something"
 
-    const searchRef = useRef<SearchResultRef>(null)
-    const subjectRef = useRef<SubjectLabelRef>(null)
+    const searchRefLatest = useRef<SearchResultRefLatest>(null)
+    const subjectRefOthers = useRef<SearchResultRefOthers>(null)
+
     const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
 
     const [textSearch, setTextSearch] = useState<string>("");
@@ -31,10 +33,14 @@ const SubjectHeadingIndex = () => {
     //     setTextSearch(key || "");
     // }, []);
     
+    console.log(slug);
+    
 
     const handleKeyDown = () => {
-        searchRef.current?.reload()
-        subjectRef.current?.reload()
+        searchRefLatest.current?.reload()
+        subjectRefOthers.current?.reload()
+
+
         subjectHeadingRef.current?.reload()
     }
 
@@ -47,7 +53,7 @@ const SubjectHeadingIndex = () => {
                     {/* Topics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📂 Classes</h2>
-                        <SubjectLabel ref={subjectRef} search={textSearch} />
+                        <SubjectLabel ref={searchRefLatest} search={textSearch} />
                     </div>
 
                     {/* Subtopics */}
@@ -96,7 +102,7 @@ const SubjectHeadingIndex = () => {
                         Search: {textSearch}
                     </div> */}
 
-                    <SearchResult ref={searchRef} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
+                    <SearchResult ref={searchRefLatest} search={textSearch} subject={slug ? slug : ''} sh={'all'} />
                 </main>
             </div>
         </div>

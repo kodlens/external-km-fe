@@ -15,7 +15,7 @@ const SearchResultCard = ( { data } : { data:Article[] }) => {
    
     return (
         <div className="grid gap-6">
-            {data?.map((item:Article, i:number) => (
+            { data?.map((item:Article, i:number) => (
                 <div
                     key={i}
                     className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition bg-white"

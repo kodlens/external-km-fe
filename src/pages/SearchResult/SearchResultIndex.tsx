@@ -1,5 +1,5 @@
 
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { type SearchResultLatestRef } from './partials/SearchResultLatest';
 import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
 import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
@@ -19,6 +19,8 @@ const SearchResultIndex = () => {
     const paramSubject = query.get("subj");
     const paramSh = query.get("sh");
 
+    const navigate = useNavigate()
+
     //const [subject, setSubject] = useState(paramSubject);
 
     const searchRefLatest = useRef<SearchResultLatestRef>(null)
@@ -35,6 +37,13 @@ const SearchResultIndex = () => {
     }, []);
     
     const handleKeyDown = () => {
+       
+
+        // subjectRef.current?.reload()
+        // subjectHeadingRef.current?.reload()
+
+        navigate(`/search?key=${encodeURIComponent(textSearch)}&subj=${paramSubject}&sh=${paramSh}`);
+
         searchRefLatest.current?.reload()
         searchRefOthers.current?.reload()
 
@@ -51,13 +60,13 @@ const SearchResultIndex = () => {
                     {/* Topics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📂 Classes</h2>
-                        <SubjectLabel ref={subjectRef}  search={textSearch} />
+                        <SubjectLabel ref={subjectRef} search={textSearch} />
                     </div>
 
                     {/* Subtopics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={paramSubject} />
+                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={paramSubject ? paramSubject : 'all'} />
                     </div>
                 </aside>
 
