@@ -91,7 +91,7 @@ const Subjects = () => {
                   key={sh.id}
                   className="flex text-sm items-start gap-2 group hover:bg-gray-200 rounded-md p-2 transition"
                 >
-                  <Link to={`/subject-headings/${item.slug}`} className='flex gap-2'>
+                  <Link to={`/subject-headings/search?key=&subj=&sh=${sh.slug}`} className='flex gap-2'>
                     <ChevronRight
                       size={18}
                       className="text-primary mt-[2px] group-hover:translate-x-1 transition"
