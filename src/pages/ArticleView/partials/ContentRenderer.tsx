@@ -24,6 +24,8 @@ export default function ContentRenderer({ html }: ContentRendererProps) {
                     img.loading = "lazy";
                     //return;
                 }else{
+                    img.setAttribute("referrerpolicy", "no-referrer");
+                    img.loading = "lazy";
                      // If starts with "/", don't add extra slash
                     if (src.startsWith("/")) {
                         img.src = `https://science.ph${src}`;
