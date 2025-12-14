@@ -84,7 +84,7 @@ const SubjectIndex = () => {
                 </aside>
 
                 {/* 📚 Results */}
-                <main className="flex-1">
+                <main className="flex-1 min-w-0">
 
                     <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                         📚 Digital Collections

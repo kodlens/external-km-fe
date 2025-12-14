@@ -14,7 +14,7 @@ const SearchResultCard = ( { data } : { data:Article[] }) => {
 
    
     return (
-        <div className="grid gap-6">
+        <div className="flex flex-col gap-4">
             { data?.map((item:Article, i:number) => (
                 <div
                     key={i}

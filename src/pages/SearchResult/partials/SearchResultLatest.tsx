@@ -68,42 +68,40 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
     return (
         <>
             { !isFetching ? (
-                <>
-                    { data?.length > 0 ? (
-                        <>
-                            <div className="flex items-center my-4">
-                                <div className="flex-grow border-t border-gray-300"></div>
-                                <span className="mx-4 text-gray-500">Latest</span>
-                                <div className="flex-grow border-t border-gray-300"></div>
-                            </div>
+                
+                data?.data.length > 0 ? (
+                    <>
+                        <div className="flex items-center my-4">
+                            <div className="flex-grow border-t border-gray-300"></div>
+                            <span className="mx-4 text-gray-500">Latest</span>
+                            <div className="flex-grow border-t border-gray-300"></div>
+                        </div>
 
-                            <SearchResultCard data={data?.data} />
+                        <SearchResultCard data={data?.data} />
 
-                            <div className="my-4 overflow-x-auto">
+                        <div className="my-4 overflow-x-auto">
 
-                                <ReactPaginate
-                                    className="flex"
-                                    breakLabel="..."
-                                    activeClassName="pagination-button active"
-                                    pageClassName="pagination-button"
-                                    nextClassName="pagination-button"
-                                    previousClassName="pagination-button"
-                                    breakClassName="pagination-button"
-                                    nextLabel=">"
-                                    onPageChange={(num) => {
-                                    handlePageChange(num.selected)
-                                    }}
-                                    pageRangeDisplayed={5}
-                                    pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
-                                    previousLabel="<"
-                                />
-                            </div>
-                        </>
-                    ) : (
-                        null
-                    )}
-                        
-                </>
+                            <ReactPaginate
+                                className="flex"
+                                breakLabel="..."
+                                activeClassName="pagination-button active"
+                                pageClassName="pagination-button"
+                                nextClassName="pagination-button"
+                                previousClassName="pagination-button"
+                                breakClassName="pagination-button"
+                                nextLabel=">"
+                                onPageChange={(num) => {
+                                handlePageChange(num.selected)
+                                }}
+                                pageRangeDisplayed={5}
+                                pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
+                                previousLabel="<"
+                            />
+                        </div>
+                    </>
+                ) : (
+                    null
+                )
             ) : (
                 <MySkeleton />
             )}

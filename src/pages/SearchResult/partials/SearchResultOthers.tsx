@@ -51,9 +51,7 @@ const SearchResultOthers = forwardRef<SearchResultOthersRef, SearchResultProps>(
     const MySkeleton = () => {
         return (
             <div className='min-h-screen max-w-7xl md:mx-auto mx-auto'>
-                <div className=''>
-                    <Skeleton />
-                </div>
+                <Skeleton />
             </div>
         );
     }
@@ -66,33 +64,38 @@ const SearchResultOthers = forwardRef<SearchResultOthersRef, SearchResultProps>(
         <>
             { !isFetching ? (
                 
-                <SearchResultCard data={data?.data} />
+                data?.data.length > 0 ? (
+                    <>
+                        <SearchResultCard data={data?.data} />
+                
+                        <div className="my-4 overflow-x-auto">
+                            <ReactPaginate
+                                className="flex"
+                                breakLabel="..."
+                                activeClassName="pagination-button active"
+                                pageClassName="pagination-button"
+                                nextClassName="pagination-button"
+                                previousClassName="pagination-button"
+                                breakClassName="pagination-button"
+                                nextLabel=">"
+                                onPageChange={(num) => {
+                                handlePageChange(num.selected)
+                                }}
+                                pageRangeDisplayed={5}
+                                pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
+                                previousLabel="<"
+                            />
+                        </div>
+                    </>
+                ) : ( 
+                    null 
+                )
                 
             ) : (
                 <MySkeleton />
             )}
-            
-
-            <div className="my-4 overflow-x-auto">
-                 <ReactPaginate
-                    className="flex"
-                    breakLabel="..."
-                    activeClassName="pagination-button active"
-                    pageClassName="pagination-button"
-                    nextClassName="pagination-button"
-                    previousClassName="pagination-button"
-                    breakClassName="pagination-button"
-                    nextLabel=">"
-                    onPageChange={(num) => {
-                       handlePageChange(num.selected)
-                    }}
-                    pageRangeDisplayed={5}
-                    pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
-                    previousLabel="<"
-                />
-            </div>
         </>
-    )
+    )  
 })
 
 

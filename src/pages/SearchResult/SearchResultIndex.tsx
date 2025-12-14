@@ -45,7 +45,7 @@ const SearchResultIndex = () => {
         <div className="min-h-screen max-w-7xl mx-auto px-4 py-6">
 
             {/* 🔍 Sticky Search Bar */}
-            <div className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-gray-200 mb-6">
+            <div className="sticky top-5 z-20 bg-white/90 backdrop-blur border-gray-200 mb-6">
                 <div className="py-4">
                     <div className="relative flex items-center">
                         <Search className="absolute left-4 text-gray-400" size={20} />
@@ -71,7 +71,7 @@ const SearchResultIndex = () => {
             <div className="flex flex-col lg:flex-row gap-6">
 
                 {/* 📂 Sidebar */}
-                <aside className="lg:w-72 w-full space-y-6">
+                <aside className="lg:w-72 space-y-6">
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5">
                         <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
                             📂 Classes
@@ -92,7 +92,7 @@ const SearchResultIndex = () => {
                 </aside>
 
                 {/* 📚 Main Content */}
-                <main className="flex-1">
+                <main className="flex-1 min-w-0">
 
                     {/* Active Filters */}
                     <div className="flex flex-wrap gap-2 mb-4">
@@ -158,12 +158,14 @@ const SearchResultIndex = () => {
                     </div>
 
                     {/* Other Results */}
+                    
                     <SearchResultOthers
                         ref={searchRefOthers}
                         search={textSearch}
                         subject={paramSubject}
                         sh={paramSh}
                     />
+                    
                 </main>
             </div>
         </div>
