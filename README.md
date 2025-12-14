@@ -13,4 +13,12 @@ If you are developing a production application, we recommend updating the config
 
 ```
 STT EXTERNAL KM
+
+
+```
+
+## Running the project LAN
+
+```
+npx vite --host
 ```
