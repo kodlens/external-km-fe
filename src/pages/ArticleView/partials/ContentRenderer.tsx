@@ -52,7 +52,7 @@ export default function ContentRenderer({ html }: ContentRendererProps) {
     return (
         <div
             ref={containerRef}
-            className="prose prose-sm md:prose lg:prose-lg max-w-none mt-6 text-gray-800 paragraph"
+            className="prose prose-sm md:prose lg:prose-lg mt-6 text-wrap text-gray-800 paragraph flex-1 min-w-0"
             dangerouslySetInnerHTML={{ __html: html }}
         />
     );

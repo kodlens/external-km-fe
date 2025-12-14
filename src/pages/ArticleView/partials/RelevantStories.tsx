@@ -39,7 +39,7 @@ export default function RelevantStories({ slug }: { slug: string }) {
     }
 
     return (
-        <div className="w-80 flex-shrink-0 pt-4">
+        <div className="max-w-4xl mx-4 md:w-80 flex-shrink-0 pt-4">
             <h2 className="text-lg font-semibold mb-4">Relevant Stories</h2>
             <ul className="space-y-3">
                 { Array.isArray(data) ? (

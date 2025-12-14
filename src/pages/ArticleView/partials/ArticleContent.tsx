@@ -59,7 +59,7 @@ const ArticleContent = () => {
 
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-6">
+    <div className="w-full mx-auto p-4 md:p-6">
       {/* Back link */}
       <div className="mb-4">
         <Link to="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800">
@@ -106,7 +106,10 @@ const ArticleContent = () => {
         ) : null}
 
         {/* Content */}
-        <ContentRenderer html={article ? article.description : ''} />
+        <div className='flex'>
+            <ContentRenderer html={article ? article.description : ''} />
+        </div>
+        
         {/* <div
           className="prose prose-sm md:prose lg:prose-lg max-w-none mt-6 text-gray-800 paragraph"
           // Your `description` already contains sanitized/controlled HTML from your DB.
@@ -116,15 +119,15 @@ const ArticleContent = () => {
         {/* Footer actions */}
         <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
           <div className="text-xs text-gray-500">
-            Alias: <span className="font-mono">{article?.slug}</span>
+            Title: <span className="font-mono">{article?.title}</span>
           </div>
-          <Link
+          {/* <Link
             to="/"
             className="text-sm text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-2"
           >
             <ChevronLeft size={16} />
             Back to main
-          </Link>
+          </Link> */}
         </div>
       </article>
     </div>
