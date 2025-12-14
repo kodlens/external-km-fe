@@ -92,7 +92,7 @@ const SubjectIndex = () => {
 
                     {!textSearch && (
                         <div className="text-center text-gray-500 mt-12">
-                            🔍 Type a keyword to filter results in this subject
+                            🔍 Type a keyword to filter results in this classes
                         </div>
                     )}
 
@@ -102,8 +102,6 @@ const SubjectIndex = () => {
                         subject={paramSubject}
                         sh={paramSh}
                     />
-
-                    
 
                     <SearchResultOthers
                         ref={searchRefOthers}
