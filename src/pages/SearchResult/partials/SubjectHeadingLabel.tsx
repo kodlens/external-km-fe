@@ -48,9 +48,7 @@ const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>((
             There is an error occured while fetching the data.
         </div>
     }
-
-
-
+    
     return (
         data.length > 0 ? (
             <ul className="space-y-2 text-sm text-gray-600">

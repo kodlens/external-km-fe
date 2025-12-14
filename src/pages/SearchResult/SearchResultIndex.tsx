@@ -6,6 +6,7 @@ import SearchResultLatest, { type SearchResultLatestRef } from './partials/Searc
 import SearchResultOthers, { type SearchResultOthersRef } from './partials/SearchResultOthers';
 import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
 import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
+import SearchParamChip from '../../components/SearchParamChip';
 
 const SearchResultIndex = () => {
     const { search } = useLocation();
@@ -22,6 +23,8 @@ const SearchResultIndex = () => {
     const searchRefOthers = useRef<SearchResultOthersRef>(null);
     const subjectRef = useRef<SubjectLabelRef>(null);
     const subjectHeadingRef = useRef<SubjectHeadingRef>(null);
+
+
 
     useEffect(() => {
         setTextSearch(key);
@@ -95,7 +98,7 @@ const SearchResultIndex = () => {
                     <div className="flex flex-wrap gap-2 mb-4">
                         {paramSubject && (
                             <span className="flex items-center gap-2 bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm">
-                                {paramSubject}
+                                <SearchParamChip title={paramSubject} />
                                 <button
                                     className="hover:text-green-900"
                                     onClick={() =>
@@ -111,7 +114,7 @@ const SearchResultIndex = () => {
 
                         {paramSh && (
                             <span className="flex items-center gap-2 bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm">
-                                {paramSh}
+                                <SearchParamChip title={paramSh} />
                                 <button
                                     className="hover:text-green-900"
                                     onClick={() =>
