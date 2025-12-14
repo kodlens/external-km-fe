@@ -32,6 +32,16 @@ const SearchResultCard = ( { data } : { data:Article[] }) => {
                         </Link>
                     </h3>
 
+                    <div>
+                        {item.subject}
+                    </div>
+
+                     <div>
+                        {item.subject_heading}
+                    </div>
+
+                    
+
                     {/* Description */}
                     <div className="text-sm text-gray-700 mb-3 line-clamp-3">
                         {item.description_text}

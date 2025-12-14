@@ -1,17 +1,15 @@
 
-import { useLocation, useParams } from 'react-router';
+import { useLocation } from 'react-router';
 
 import { Search } from 'lucide-react';
 import { useRef, useState } from 'react';
-// import type { SearchResultRef } from '../SearchResult/partials/SearchResultLatest';
 import type { SubjectHeadingRef } from '../SearchResult/partials/SubjectHeadingLabel';
-//import SubjectLabel from '../SearchResult/partials/SubjectLabel';
-//import SubjectHeadingLabel from '../SearchResult/partials/SubjectHeadingLabel';
-import SearchResult from '../SearchResult/partials/SearchResultLatest';
-import SubjectLabel from '../SearchResult/partials/SubjectLabel';
-import SubjectHeadingLabel from '../SearchResult/partials/SubjectHeadingLabel';
+
 import type { SearchResultRefLatest } from './partials/SearchResultLatest';
 import type { SearchResultRefOthers } from './partials/SearchResultOthers';
+import SubjectLabel from './partials/SubjectLabel';
+import SubjectHeadingLabel from './partials/SubjectHeadingLabel';
+import SearchResultLatest from './partials/SearchResultLatest';
 
 
 const SubjectHeadingIndex = () => {
@@ -37,7 +35,6 @@ const SubjectHeadingIndex = () => {
     //     setTextSearch(key || "");
     // }, []);
     
-
     const handleKeyDown = () => {
         searchRefLatest.current?.reload()
         subjectRefOthers.current?.reload()
@@ -48,20 +45,25 @@ const SubjectHeadingIndex = () => {
 
     return (
         <div className='min-h-screen mt-24 md:w-7xl md:mx-auto mx-2'>
-
+            
             <div className="flex flex-col lg:flex-row gap-6">
                 {/* Sidebar - Topics */}
                 <aside className="lg:w-64 w-full bg-white shadow rounded-xl border border-gray-100 p-6 space-y-6">
                     {/* Topics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📂 Classes</h2>
-                        <SubjectLabel ref={searchRefLatest} search={textSearch} />
+                        <SubjectLabel ref={searchRefLatest} search={textSearch} 
+                            subject={paramSubject ? paramSubject : ''}
+                            sh={paramSh ? paramSh : ''}
+                            />
                     </div>
 
                     {/* Subtopics */}
                     <div>
                         <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        {/* <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={slug ? slug : 'all'} /> */}
+                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} 
+                            subject={paramSubject ? paramSubject : ''}
+                            sh={paramSh ? paramSh : ''} />
                     </div>
                 </aside>
 
@@ -103,7 +105,7 @@ const SubjectHeadingIndex = () => {
                         Search: {textSearch}
                     </div> */}
 
-                    <SearchResult ref={searchRefLatest} search={textSearch} subject={'all'} sh={paramSh} />
+                    <SearchResultLatest ref={searchRefLatest} search={textSearch} subject={paramSubject} sh={paramSh} />
                 </main>
             </div>
         </div>

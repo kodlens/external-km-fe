@@ -1,6 +1,6 @@
 const Skeleton = () => {
   return (
-      <div className="p-4 flex flex-col gap-6 ">
+      <div className="flex flex-col gap-6 ">
         {[...Array(4)].map((_, i) => (
             <div
                 key={i}

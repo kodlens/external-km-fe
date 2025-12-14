@@ -58,7 +58,7 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search, 
                 data.map((subject:Subject, i:number) => (
                     <Link
                         key={i}
-                        to={`/subject/${subject.slug}/search?key=${search}&subj=${subject.slug}&sh=all`}
+                        to={`/subject/search?key=${search}&subj=${subject.slug}&sh=all`}
                         className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition hover:cursor-pointer"
                     >
                         {subject.subject} ({subject.count})

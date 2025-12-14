@@ -27,7 +27,7 @@ const SearchResult = forwardRef<SearchResultRefLatest, SearchResultProps>(({ sea
     const { data = [], isFetching, error, refetch } = useQuery({
         queryKey: ['subjectFetchSearch', page, subject, sh],
         queryFn: async () => {
-            const res = await axios.get(`${config.baseUri}/api/search/latest?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
+            const res = await axios.get(`${config.baseUri}/api/subject-headings/search/latest?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
             return res.data
         },
 

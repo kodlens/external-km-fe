@@ -1,133 +1,166 @@
-
 import { useLocation, useNavigate } from 'react-router';
-import { type SearchResultLatestRef } from './partials/SearchResultLatest';
-import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
-import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
 import { Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import SearchResultLatest from './partials/SearchResultLatest';
-import SearchResultOthers, { type SearchResultOthersRef } from './partials/SearchResultOthers';
-//import SearchFromGoogle from './partials/SearchFromGoogle';
 
+import SearchResultLatest, { type SearchResultLatestRef } from './partials/SearchResultLatest';
+import SearchResultOthers, { type SearchResultOthersRef } from './partials/SearchResultOthers';
+import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
+import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
 
 const SearchResultIndex = () => {
+    const { search } = useLocation();
+    const navigate = useNavigate();
 
-    //const { search } = useParams<{ search: string }>();
-    const { search} = useLocation(); // gives "?key=something"
     const query = new URLSearchParams(search);
-    const key = query.get("key");
-    const paramSubject = query.get("subj");
-    const paramSh = query.get("sh");
+    const key = query.get('key') ?? '';
+    const paramSubject = query.get('subj') ?? '';
+    const paramSh = query.get('sh') ?? '';
 
-    const navigate = useNavigate()
+    const [textSearch, setTextSearch] = useState<string>(key);
 
-    //const [subject, setSubject] = useState(paramSubject);
+    const searchRefLatest = useRef<SearchResultLatestRef>(null);
+    const searchRefOthers = useRef<SearchResultOthersRef>(null);
+    const subjectRef = useRef<SubjectLabelRef>(null);
+    const subjectHeadingRef = useRef<SubjectHeadingRef>(null);
 
-    const searchRefLatest = useRef<SearchResultLatestRef>(null)
-    const searchRefOthers = useRef<SearchResultOthersRef>(null)
-
-    const subjectRef = useRef<SubjectLabelRef>(null)
-    const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
-
-    const [textSearch, setTextSearch] = useState<string>(key || "");
-
-    // update textSearch whenever the URL param changes
     useEffect(() => {
-        setTextSearch(key || "");
-    }, []);
-    
-    const handleKeyDown = () => {
-       
+        setTextSearch(key);
+    }, [key]);
 
-        // subjectRef.current?.reload()
-        // subjectHeadingRef.current?.reload()
+    const handleSearch = () => {
+        navigate(
+            `/search?key=${encodeURIComponent(textSearch)}&subj=${paramSubject}&sh=${paramSh}`
+        );
 
-        navigate(`/search?key=${encodeURIComponent(textSearch)}&subj=${paramSubject}&sh=${paramSh}`);
-
-        searchRefLatest.current?.reload()
-        searchRefOthers.current?.reload()
-
-        subjectRef.current?.reload()
-        subjectHeadingRef.current?.reload()
-    }
+        searchRefLatest.current?.reload();
+        searchRefOthers.current?.reload();
+        subjectRef.current?.reload();
+        subjectHeadingRef.current?.reload();
+    };
 
     return (
-        <div className='min-h-screen mt-10 md:w-7xl md:mx-auto mx-2'>
+        <div className="min-h-screen max-w-7xl mx-auto px-4 py-6">
 
-            <div className="flex flex-col lg:flex-row gap-6">
-                {/* Sidebar - Topics */}
-                <aside className="lg:w-64 w-full bg-white shadow rounded-xl border border-gray-100 p-6 space-y-6">
-                    {/* Topics */}
-                    <div>
-                        <h2 className="font-semibold text-gray-800 mb-4">📂 Classes</h2>
-                        <SubjectLabel ref={subjectRef} search={textSearch} />
-                    </div>
-
-                    {/* Subtopics */}
-                    <div>
-                        <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
-                        <SubjectHeadingLabel ref={subjectHeadingRef} search={textSearch} subject={paramSubject ? paramSubject : 'all'} />
-                    </div>
-                </aside>
-
-                {/* Main Results */}
-                <main className="flex-1">
-                    
-                    <div className="w-full flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white mb-6">
+            {/* 🔍 Sticky Search Bar */}
+            <div className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-gray-200 mb-6">
+                <div className="py-4">
+                    <div className="relative flex items-center">
+                        <Search className="absolute left-4 text-gray-400" size={20} />
                         <input
                             type="text"
-                            placeholder="Search collections, innovations, technology, news & events, topics, trends..."
-                            className="flex-1 px-4 py-3 md:px-6 md:py-4 text-gray-700 outline-none placeholder:text-gray-400"
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") handleKeyDown()
-                            }}
-                            onChange={(e) => {
-                                setTextSearch(e.target.value)
-                            }}
+                            placeholder="Search collections, technology, news, topics…"
+                            className="w-full pl-12 pr-32 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 text-gray-800"
                             value={textSearch}
+                            onChange={(e) => setTextSearch(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                             autoComplete="off"
                         />
                         <button
-                            onClick={handleKeyDown}
-                            type="button"
-                            className="flex items-center justify-center gap-2 bg-danger px-6 py-3 md:py-4 text-white font-medium transition-all hover:bg-red-500 active:bg-red-600"
+                            onClick={handleSearch}
+                            className="absolute right-2 px-6 py-2 rounded-full bg-danger text-white font-medium hover:bg-red-600 transition"
                         >
-                            <Search size={18} />
-                            <span>Search</span>
+                            Search
                         </button>
                     </div>
+                </div>
+            </div>
 
-                    <h2 className="mb-4 text-xl font-bold text-gray-800">
+            <div className="flex flex-col lg:flex-row gap-6">
+
+                {/* 📂 Sidebar */}
+                <aside className="lg:w-72 w-full space-y-6">
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5">
+                        <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            📂 Classes
+                        </h2>
+                        <SubjectLabel ref={subjectRef} search={textSearch} />
+                    </div>
+
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5">
+                        <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            📑 Subject Headings
+                        </h2>
+                        <SubjectHeadingLabel
+                            ref={subjectHeadingRef}
+                            search={textSearch}
+                            subject={paramSubject || 'all'}
+                        />
+                    </div>
+                </aside>
+
+                {/* 📚 Main Content */}
+                <main className="flex-1">
+
+                    {/* Active Filters */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        {paramSubject && (
+                            <span className="flex items-center gap-2 bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm">
+                                {paramSubject}
+                                <button
+                                    className="hover:text-green-900"
+                                    onClick={() =>
+                                        navigate(
+                                            `/search?key=${encodeURIComponent(textSearch)}&subj=&sh=${paramSh}`
+                                        )
+                                    }
+                                >
+                                    ✕
+                                </button>
+                            </span>
+                        )}
+
+                        {paramSh && (
+                            <span className="flex items-center gap-2 bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm">
+                                {paramSh}
+                                <button
+                                    className="hover:text-green-900"
+                                    onClick={() =>
+                                        navigate(
+                                            `/search?key=${encodeURIComponent(textSearch)}&subj=${paramSubject}&sh=`
+                                        )
+                                    }
+                                >
+                                    ✕
+                                </button>
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Title */}
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                         📚 Digital Collections
                     </h2>
 
-                    { textSearch ? (
-                        <div className='my-2'>
-                            Search: {textSearch}
+                    {!textSearch && (
+                        <div className="text-center text-gray-500 mt-12">
+                            🔍 Start typing to search our digital collections
                         </div>
-                    ) : null}
+                    )}
 
-                   
+                    {/* Latest Results */}
+                    <SearchResultLatest
+                        ref={searchRefLatest}
+                        search={textSearch}
+                        subject={paramSubject}
+                        sh={paramSh}
+                    />
 
-                    <SearchResultLatest ref={searchRefLatest} search={textSearch} subject={paramSubject} sh={paramSh} />
-                    
-                    <div className="flex items-center my-4">
+                    {/* Divider */}
+                    <div className="flex items-center my-6">
                         <div className="flex-grow border-t border-gray-300"></div>
-                        <span className="mx-4 text-gray-500">You may also want these results</span>
+                        <span className="mx-4 text-gray-500 text-sm">
+                            You may also want these results
+                        </span>
                         <div className="flex-grow border-t border-gray-300"></div>
                     </div>
 
-                    <SearchResultOthers ref={searchRefOthers} search={textSearch} subject={paramSubject} sh={paramSh} />
-
-                    {/* <div className="flex items-center my-4">
-                        <div className="flex-grow border-t border-gray-300"></div>
-                       <span className="mx-4 text-gray-500">Search from Google</span>
-                       <div className="flex-grow border-t border-gray-300"></div>
-                    </div> */}
-
-                    {/* <SearchFromGoogle search={textSearch} /> */}
-
-
+                    {/* Other Results */}
+                    <SearchResultOthers
+                        ref={searchRefOthers}
+                        search={textSearch}
+                        subject={paramSubject}
+                        sh={paramSh}
+                    />
                 </main>
             </div>
         </div>

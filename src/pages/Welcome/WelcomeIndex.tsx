@@ -25,7 +25,7 @@ export const WelcomeIndex = () => {
     const handleKeyDown = () => {
         const value = searchRef.current?.value.trim() || ""
         //setSearchValue(value)
-        navigate(`/search?key=${encodeURIComponent(value)}&subj=all&sh=all`);
+        navigate(`/search?key=${encodeURIComponent(value)}&subj=&sh=`);
     }
 
     return (
@@ -55,7 +55,7 @@ export const WelcomeIndex = () => {
                     </div>
 
                     {/* Search Bar */}
-                    <div className="w-full flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white">
+                    {/* <div className="w-full flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white">
                         <input
                             type="text"
                             ref={searchRef}
@@ -74,7 +74,28 @@ export const WelcomeIndex = () => {
                             <Search size={18} />
                             <span>Search</span>
                         </button>
+                    </div> */}
+
+                    <div className="w-full relative flex items-center">
+                        <Search className="absolute left-4 text-gray-400" size={20} />
+                        <input
+                            type="text"
+                            placeholder="Search collections, technology, news, topics…"
+                            className="w-full pl-12 pr-32 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 text-gray-800"
+                            ref={searchRef}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") handleKeyDown()
+                            }}
+                            autoComplete="off"
+                        />
+                        <button
+                            onClick={handleKeyDown}
+                            className="absolute right-2 px-6 py-2 rounded-full bg-danger text-white font-medium hover:bg-red-600 transition"
+                        >
+                            Search
+                        </button>
                     </div>
+
                 </div>
             </section>
 
