@@ -7,10 +7,16 @@ import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectH
 
 import SearchResultLatest, { type SearchResultRefLatest } from './partials/SearchResultLatest';
 import SearchResultOthers, { type SearchResultRefOthers } from './partials/SearchResultOthers';
+import CircleLoading from '../../components/CircleLoading';
+import { useIsFetching } from '@tanstack/react-query';
+import { div } from 'framer-motion/client';
+
 
 const SubjectIndex = () => {
     const { search } = useLocation();
     const query = new URLSearchParams(search);
+    const isFetching = useIsFetching();
+    const isLoading = isFetching > 0;
 
     const paramSubject = query.get('subj') ?? '';
     const paramSh = query.get('sh') ?? '';
@@ -27,11 +33,12 @@ const SubjectIndex = () => {
         searchRefOthers.current?.reload();
         subjectRef.current?.reload();
         subjectHeadingRef.current?.reload();
+
     };
 
     return (
         <div className="min-h-screen max-w-7xl mx-auto px-4 py-6">
-
+            
             {/* 🔍 Search Bar */}
             <div className="mb-6">
                 <div className="relative flex items-center">
@@ -47,10 +54,26 @@ const SubjectIndex = () => {
                     />
                     <button
                         onClick={handleSearch}
-                        className="absolute right-2 px-6 py-2 rounded-full bg-danger text-white font-medium hover:bg-red-600 transition"
+                        className={`
+                            absolute right-2 px-6 py-2 rounded-full font-medium transition
+                            ${isLoading
+                                ? 'bg-gray-400 text-white cursor-not-allowed'
+                                : 'bg-danger text-white hover:bg-red-600'}
+                        `}
                     >
-                        Search
+                        <div className='flex items-center gap-2'>
+                            <div>
+                                Search
+                            </div>
+                            { isLoading ? (<div>
+                                <CircleLoading />
+                            </div>) : (
+                                null
+                            ) }
+                        </div>
                     </button>
+
+                   
                 </div>
             </div>
 

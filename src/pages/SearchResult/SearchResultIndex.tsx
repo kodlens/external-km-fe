@@ -7,10 +7,16 @@ import SearchResultOthers, { type SearchResultOthersRef } from './partials/Searc
 import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
 import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
 import SearchParamChip from '../../components/SearchParamChip';
+import { useIsFetching } from '@tanstack/react-query';
+import CircleLoading from '../../components/CircleLoading';
+
 
 const SearchResultIndex = () => {
     const { search } = useLocation();
     const navigate = useNavigate();
+
+    const isFetching = useIsFetching();
+    const isLoading = isFetching > 0;
 
     const query = new URLSearchParams(search);
     const key = query.get('key') ?? '';
@@ -60,9 +66,23 @@ const SearchResultIndex = () => {
                         />
                         <button
                             onClick={handleSearch}
-                            className="absolute right-2 px-6 py-2 rounded-full bg-danger text-white font-medium hover:bg-red-600 transition"
+                            className={`
+                                absolute right-2 px-6 py-2 rounded-full font-medium transition
+                                ${isLoading
+                                    ? 'bg-gray-400 text-white cursor-not-allowed'
+                                    : 'bg-danger text-white hover:bg-red-600'}
+                            `}
                         >
-                            Search
+                            <div className='flex items-center gap-2'>
+                                <div>
+                                    Search
+                                </div>
+                                { isLoading ? (<div>
+                                    <CircleLoading />
+                                </div>) : (
+                                    null
+                                ) }
+                            </div>
                         </button>
                     </div>
                 </div>

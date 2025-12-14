@@ -14,6 +14,7 @@ interface SubjectLabelProps {
 
 export interface SubjectLabelRef {
     reload : (subject?: string) => void
+    isLoading: () => boolean
 }
 
 
@@ -35,7 +36,11 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search, 
     useImperativeHandle(ref, ()=> ({
         reload() {
             refetch()
-        }
+        },
+
+        isLoading() {
+            return isFetching;
+        },
     }))
 
     if (isFetching) {
