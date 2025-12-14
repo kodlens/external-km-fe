@@ -5,7 +5,6 @@ import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import SearchResultCard from "../../../components/SearchResultCard";
-import { SearchX } from "lucide-react";
 //import { div } from "framer-motion/client";
 
 

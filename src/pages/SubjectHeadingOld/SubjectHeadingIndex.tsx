@@ -16,7 +16,7 @@ const SubjectHeadingIndex = () => {
 
     const { search} = useLocation(); // gives "?key=something"
     const query = new URLSearchParams(search);
-    const key = query.get("key");
+    //const key = query.get("key");
     const paramSubject = query.get("subj");
     const paramSh = query.get("sh");
     // const { search } = useLocation(); // gives "?key=something"
