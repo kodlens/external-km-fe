@@ -11,7 +11,6 @@ const SearchResultCard = ( { data } : { data:Article[] }) => {
             return `/view/article/${i.slug}`
         }
     }
-
    
     return (
         <div className="flex flex-col gap-4">
