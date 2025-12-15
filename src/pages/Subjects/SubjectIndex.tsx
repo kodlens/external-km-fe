@@ -9,7 +9,7 @@ import SearchResultLatest, { type SearchResultRefLatest } from './partials/Searc
 import SearchResultOthers, { type SearchResultRefOthers } from './partials/SearchResultOthers';
 import CircleLoading from '../../components/CircleLoading';
 import { useIsFetching } from '@tanstack/react-query';
-import { div } from 'framer-motion/client';
+//import { div } from 'framer-motion/client';
 
 
 const SubjectIndex = () => {
