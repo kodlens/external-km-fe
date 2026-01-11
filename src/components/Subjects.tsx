@@ -104,11 +104,11 @@ const Subjects = () => {
               ))}
             </ul>
 
-            { item.subject_headings.length > 5 ? (
+            {/* { item.subject_headings.length > 5 ? (
               <div>
                 <button className='text-blue-900 hover:text-blue-700 hover:cursor-pointer px-4 py-4'>See more...</button>
               </div>
-            ) : null }
+            ) : null } */}
           </div>
         </motion.div>
       ))}
