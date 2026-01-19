@@ -4,7 +4,7 @@ import axios from "axios";
 
 import Skeleton from "../../../components/Skeleton";
 import ReactPaginate from "react-paginate";
-import { forwardRef,  useImperativeHandle, useState } from "react";
+import { forwardRef,  useEffect,  useImperativeHandle, useState } from "react";
 import SearchResultCard from "../../../components/SearchResultCard";
 //import { div } from "framer-motion/client";
 
@@ -23,6 +23,10 @@ export interface SearchResultOthersRef {
 const SearchResultOthers = forwardRef<SearchResultOthersRef, SearchResultProps>(( { search, subject, sh }, ref  ) => {
    
     const [page, setPage] = useState<number>(1)
+    
+    useEffect(() => {
+        setPage(1);
+    }, [search, subject, sh]);
 
     const { data = [], isFetching, error, refetch } = useQuery({
         queryKey: ['fetchSearchOthers', page, subject, sh],
@@ -57,33 +61,34 @@ const SearchResultOthers = forwardRef<SearchResultOthersRef, SearchResultProps>(
     }
 
     const handlePageChange = (pageNo:number) => {
-        setPage(pageNo + 1);
+        setPage(pageNo + 1);   
     }
 
     return (
         <>
             { !isFetching ? (
                 
-                data?.data.length > 0 ? (
+                Array.isArray(data?.data) && data?.data.length > 0 ? (
                     <>
                         <SearchResultCard data={data?.data} />
                 
                         <div className="my-4 overflow-x-auto">
                             <ReactPaginate
                                 className="flex"
-                                breakLabel="..."
-                                activeClassName="pagination-button active"
                                 pageClassName="pagination-button"
-                                nextClassName="pagination-button"
+                                pageLinkClassName="pagination-link"
+                                activeClassName="active"
+                                activeLinkClassName="active-link"
                                 previousClassName="pagination-button"
+                                nextClassName="pagination-button"
                                 breakClassName="pagination-button"
+                                breakLabel="..."
                                 nextLabel=">"
-                                onPageChange={(num) => {
-                                handlePageChange(num.selected)
-                                }}
+                                previousLabel="<"
                                 pageRangeDisplayed={5}
                                 pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
-                                previousLabel="<"
+                                forcePage={page - 1}   // 🔴 IMPORTANT
+                                onPageChange={(e) => handlePageChange(e.selected)}
                             />
                         </div>
                     </>

@@ -25,6 +25,10 @@ const SearchResultIndex = () => {
 
     const [textSearch, setTextSearch] = useState<string>(key);
 
+    const [subj, setSubj] = useState<string>(paramSubject);
+    const [sh, setSh] = useState<string>(paramSh);
+
+
     const searchRefLatest = useRef<SearchResultLatestRef>(null);
     const searchRefOthers = useRef<SearchResultOthersRef>(null);
     const subjectRef = useRef<SubjectLabelRef>(null);
@@ -34,11 +38,14 @@ const SearchResultIndex = () => {
 
     useEffect(() => {
         setTextSearch(key);
+
+        setSubj('')
+        setSh('')
     }, [key]);
 
     const handleSearch = () => {
         navigate(
-            `/search?key=${encodeURIComponent(textSearch)}&subj=${paramSubject}&sh=${paramSh}`
+            `/search?key=${encodeURIComponent(textSearch)}&subj=${subj}&sh=${sh}`
         );
 
         searchRefLatest.current?.reload();

@@ -54,7 +54,7 @@ const SubjectLabel = forwardRef<SubjectLabelRef, SubjectLabelProps>(( { search }
 
     return (
         <div className="flex flex-col gap-3">
-            {data.length > 0 ? (
+            { Array.isArray(data) && data.length > 0 ? (
                 data.map((subject:Subject, i:number) => (
                     <Link
                         key={i}

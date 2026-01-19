@@ -26,17 +26,17 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
+    width: 35px;
     /* fixed width  */
-    height: 50px;
+    height: 35px;
     /* fixed height */
-    border-radius: 50%;
+    /* border-radius: 50%; */
     /* makes it a circle */
     background-color: #f0f0f0;
     color: #333;
     font-size: 14px;
     font-weight: 500;
-    margin: 0 4px;
+    /* margin: 0 4px; */
     border: 1px solid #ddd;
     transition: all 0.2s ease;
 }
