@@ -58,7 +58,7 @@ const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>((
                         className="pl-2 border-l-2 border-blue-200 hover:border-blue-500 hover:text-blue-700 transition"
                     >
                         <Link 
-                            to={`/search?key=${search}&subj=${subject}&sh=${subH.slug}`}>
+                            to={`/search?key=${search}&subj=${subject}&sh=${subH.subject_heading_slug}`}>
                                 {subH.subject_heading} ( {subH.count} )
                         </Link>
                         {/* <Link to={`/by-sh?sh=${subH.slug}`}>{subH.subject_heading} ( {subH.count} )</Link> */}

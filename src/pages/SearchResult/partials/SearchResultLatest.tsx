@@ -47,9 +47,6 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
             There is an error occured while fetching the data.
         </div>
     }
- 
-
-
     
     const MySkeleton = () => {
         return (
@@ -77,22 +74,25 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
 
                         <div className="my-4 overflow-x-auto">
 
-                            <ReactPaginate
-                                className="flex"
-                                breakLabel="..."
-                                activeClassName="pagination-button active"
-                                pageClassName="pagination-button"
-                                nextClassName="pagination-button"
-                                previousClassName="pagination-button"
-                                breakClassName="pagination-button"
-                                nextLabel=">"
-                                onPageChange={(num) => {
-                                handlePageChange(num.selected)
-                                }}
-                                pageRangeDisplayed={5}
-                                pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
-                                previousLabel="<"
-                            />
+                            <div className="my-4 overflow-x-auto">
+                                <ReactPaginate
+                                    className="flex"
+                                    pageClassName="pagination-button"
+                                    pageLinkClassName="pagination-link"
+                                    activeClassName="active"
+                                    activeLinkClassName="active-link"
+                                    previousClassName="pagination-button"
+                                    nextClassName="pagination-button"
+                                    breakClassName="pagination-button"
+                                    breakLabel="..."
+                                    nextLabel=">"
+                                    previousLabel="<"
+                                    pageRangeDisplayed={5}
+                                    pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
+                                    forcePage={page - 1}   // 🔴 IMPORTANT
+                                    onPageChange={(e) => handlePageChange(e.selected)}
+                                />
+                            </div>
                         </div>
                     </>
                 ) : (

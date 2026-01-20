@@ -31,6 +31,14 @@ const SearchResultCard = ( { data } : { data:Article[] }) => {
                         </Link>
                     </h3>
 
+                    <div className='my-2 font-bold text-sm text-gray-500'>
+                        Publish on: {item.publish_date ? (new Date(item.publish_date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })) : ''}
+                    </div>
+
                     {/* Description */}
                     <div className="text-sm text-gray-700 mb-3 line-clamp-3">
                         {item.description_text}
