@@ -23,7 +23,7 @@ export interface SearchResultOthersRef {
 const SearchResultOthers = forwardRef<SearchResultOthersRef, SearchResultProps>(( { search, subject, sh }, ref  ) => {
    
     const [page, setPage] = useState<number>(1)
-    
+
     useEffect(() => {
         setPage(1);
     }, [search, subject, sh]);
@@ -54,9 +54,10 @@ const SearchResultOthers = forwardRef<SearchResultOthersRef, SearchResultProps>(
     
     const MySkeleton = () => {
         return (
-            <div className='min-h-screen max-w-7xl md:mx-auto mx-auto'>
-                <Skeleton />
-            </div>
+            // <div className='min-h-screen max-w-7xl md:mx-auto mx-auto'>
+                
+            // </div>
+            <Skeleton />
         );
     }
 

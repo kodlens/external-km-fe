@@ -41,6 +41,7 @@ const SearchResultIndex = () => {
 
         setSubj('')
         setSh('')
+        
     }, [key]);
 
     const handleSearch = () => {

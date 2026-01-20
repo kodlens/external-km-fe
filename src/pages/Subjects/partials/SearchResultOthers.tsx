@@ -49,11 +49,12 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
 
     const MySkeleton = () => {
         return (
-            <div className='min-h-screen max-w-7xl md:mx-auto mx-auto'>
-                <div className=''>
-                    <Skeleton />
-                </div>
-            </div>
+            // <div className='min-h-screen max-w-7xl md:mx-auto mx-auto'>
+            //     <div className=''>
+                   
+            //     </div>
+            // </div>
+             <Skeleton />
         );
     }
 
