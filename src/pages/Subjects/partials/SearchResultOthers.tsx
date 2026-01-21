@@ -27,7 +27,7 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
     const { data = [], isFetching, error, refetch } = useQuery({
         queryKey: ['subjectFetchSearchOthers', page, subject, sh],
         queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search/others?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
+            const res =  await axios.get(`${config.baseUri}/api/subject/search-others?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
             return res.data
         },
 
@@ -82,19 +82,20 @@ const SearchResultOthers = forwardRef<SearchResultRefOthers, SearchResultProps>(
 
                             <ReactPaginate
                                 className="flex"
-                                breakLabel="..."
-                                activeClassName="pagination-button active"
                                 pageClassName="pagination-button"
-                                nextClassName="pagination-button"
+                                pageLinkClassName="pagination-link"
+                                activeClassName="active"
+                                activeLinkClassName="active-link"
                                 previousClassName="pagination-button"
+                                nextClassName="pagination-button"
                                 breakClassName="pagination-button"
+                                breakLabel="..."
                                 nextLabel=">"
-                                onPageChange={(num) => {
-                                handlePageChange(num.selected)
-                                }}
+                                previousLabel="<"
                                 pageRangeDisplayed={5}
                                 pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
-                                previousLabel="<"
+                                forcePage={page - 1}   // 🔴 IMPORTANT
+                                onPageChange={(e) => handlePageChange(e.selected)}
                             />
                         </div>
                     </>

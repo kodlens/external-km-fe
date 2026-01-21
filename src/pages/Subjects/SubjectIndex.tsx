@@ -54,6 +54,7 @@ const SubjectIndex = () => {
                     />
                     <button
                         onClick={handleSearch}
+                        disabled={isLoading}
                         className={`
                             absolute right-2 px-6 py-2 rounded-full font-medium transition
                             ${isLoading
@@ -71,6 +72,7 @@ const SubjectIndex = () => {
                                 null
                             ) }
                         </div>
+                        
                     </button>
 
                    
@@ -114,7 +116,7 @@ const SubjectIndex = () => {
                     </h2>
 
                     {!textSearch && (
-                        <div className="text-center text-gray-500 mt-12">
+                        <div className="text-center text-gray-500 my-6 italic flex items-center justify-center gap-2">
                             🔍 Type a keyword to filter results in this classes
                         </div>
                     )}
