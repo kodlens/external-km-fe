@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-8 mt-12">
+    <footer className="bg-gray-900 text-gray-300 py-8">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Left - Branding */}
         <div className="text-center md:text-left">
