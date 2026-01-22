@@ -65,7 +65,7 @@ export default function ArticleView() {
           <div className="rounded-xl border border-red-200 bg-red-50 p-6">
             <h2 className="text-lg font-semibold text-red-700">Error loading article</h2>
             <p className="text-sm text-red-600 mt-2">
-              {(error as any)?.message ?? "Please try again."}
+              {(error)?.message ?? "Please try again."}
             </p>
             <div className="mt-4 flex items-center gap-3">
               <button
