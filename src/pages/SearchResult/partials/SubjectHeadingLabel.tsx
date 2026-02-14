@@ -13,66 +13,62 @@ export interface SubjectHeadingRef {
 
 interface SubjectHeadingProps {
     search: string | null | undefined
-    subject?: string;
+    subject?: string
 }
 
+const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>(
+    ({ search, subject }, ref) => {
+        const { data, isFetching, error, refetch } = useQuery({
+            queryKey: ["subjectHeadings", search, subject],
+            queryFn: async () => {
+                const res = await axios.get(
+                    `${config.baseUri}/api/subject-headings/search?key=${search}&subj=${subject}`
+                )
+                return res.data
+            },
+            refetchOnWindowFocus: false,
+        })
 
-const SubjectHeadingLabel = forwardRef<SubjectHeadingRef, SubjectHeadingProps>(({ search, subject }, ref) => {
+        useImperativeHandle(ref, () => ({
+            reload() {
+                refetch()
+            },
+        }))
 
-    const { data, isFetching, error, refetch } = useQuery({
-        queryKey: ['subjectHeadings', subject],
-        queryFn: async () => {
-            const res = await axios.get(`${config.baseUri}/api/subject-headings/search?key=${search}&subj=${subject}`)
-            return res.data
-        },
-
-        refetchOnWindowFocus: false
-    })
-
-    useImperativeHandle(ref, () => ({
-        reload() {
-            refetch()
+        if (isFetching) {
+            return <SkeletonNoBorder />
         }
-    }))
 
+        if (error) {
+            return (
+                <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+                    Failed to load topics.
+                </div>
+            )
+        }
 
-    if (isFetching) {
-        return (
-            <SkeletonNoBorder />
-        );
-    }
-
-
-    if (error) {
-        <div>
-            There is an error occured while fetching the data.
-        </div>
-    }
-    
-    return (
-        data.length > 0 ? (
-            <ul className="space-y-2 text-sm text-gray-600">
-                { data?.map((subH:SubjectHeading, ix:number) => (
+        return data.length > 0 ? (
+            <ul className="space-y-2 text-sm text-slate-600">
+                {data?.map((subH: SubjectHeading, ix: number) => (
                     <li
                         key={ix}
-                        className="pl-2 border-l-2 border-blue-200 hover:border-blue-500 hover:text-blue-700 transition"
+                        className="rounded-r-md border-l-2 border-sky-200 pl-2 transition hover:border-sky-500"
                     >
-                        <Link 
-                            to={`/search?key=${search}&subj=${subject}&sh=${subH.subject_heading_slug}`}>
-                                {subH.subject_heading} ( {subH.count} )
+                        <Link
+                            className="transition hover:text-sky-700"
+                            to={`/search?key=${search}&subj=${subject}&sh=${subH.subject_heading_slug}`}
+                        >
+                            {subH.subject_heading} ({subH.count})
                         </Link>
-                        {/* <Link to={`/by-sh?sh=${subH.slug}`}>{subH.subject_heading} ( {subH.count} )</Link> */}
-
                     </li>
                 ))}
             </ul>
         ) : (
-             <div className="flex items-center gap-2 text-gray-500 italic text-sm">
-                <SearchX size={16} /> No subject headings found.
+            <div className="flex items-center gap-2 text-sm italic text-slate-500">
+                <SearchX size={16} /> No topics found.
             </div>
-        ) 
-    )
-
-})
+        )
+    }
+)
 
 export default SubjectHeadingLabel

@@ -1,78 +1,72 @@
-import { useQuery } from "@tanstack/react-query";
-import { config } from "../../../config/config";
-import axios from "axios";
-import Skeleton from "../../../components/Skeleton";
-import ReactPaginate from "react-paginate";
-import { forwardRef,  useImperativeHandle, useState } from "react";
-import SearchResultCard from "../../../components/SearchResultCard";
-//import { div } from "framer-motion/client";
-
-
-
+import { useQuery } from "@tanstack/react-query"
+import { config } from "../../../config/config"
+import axios from "axios"
+import Skeleton from "../../../components/Skeleton"
+import ReactPaginate from "react-paginate"
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
+import SearchResultCard from "../../../components/SearchResultCard"
 
 interface SearchResultProps {
-    search: string;
-    subject: string | null;
-    sh: string | null;
+    search: string
+    subject: string | null
+    sh: string | null
 }
 
 export interface SearchResultLatestRef {
-    reload: (subject?: string) => void;
+    reload: (subject?: string) => void
 }
 
+const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
+    ({ search, subject, sh }, ref) => {
+        const [page, setPage] = useState<number>(1)
 
-const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(( { search, subject, sh }, ref  ) => {
-   
-    const [page, setPage] = useState<number>(1)
+        useEffect(() => {
+            setPage(1)
+        }, [search, subject, sh])
 
-    const { data = [], isFetching, error, refetch } = useQuery({
-        queryKey: ['fetchSearchLatest', page, subject, sh],
-        queryFn: async () => {
-            const res =  await axios.get(`${config.baseUri}/api/search/latest?key=${search}&subj=${subject}&sh=${sh}&page=${page}`)
-            return res.data
-        },
+        const { data = [], isFetching, error, refetch } = useQuery({
+            queryKey: ["fetchSearchLatest", search, page, subject, sh],
+            queryFn: async () => {
+                const res = await axios.get(
+                    `${config.baseUri}/api/search/latest?key=${search}&subj=${subject}&sh=${sh}&page=${page}`
+                )
+                return res.data
+            },
+            refetchOnWindowFocus: false,
+        })
 
-        refetchOnWindowFocus: false
-    })
+        useImperativeHandle(ref, () => ({
+            reload() {
+                refetch()
+            },
+        }))
 
-    useImperativeHandle(ref, () => ({
-        reload() {
-            refetch()
+        if (error) {
+            return (
+                <div className="rounded-xl bg-red-50 p-4 text-sm text-red-700">
+                    Failed to load latest results.
+                </div>
+            )
         }
-    }))
 
-    
-    if(error){
-        <div>
-            There is an error occured while fetching the data.
-        </div>
-    }
-    
-    const MySkeleton = () => {
+        const handlePageChange = (pageNo: number) => {
+            setPage(pageNo + 1)
+        }
+
         return (
-            <Skeleton />
-        );
-    }
+            <>
+                {!isFetching ? (
+                    data?.data.length > 0 ? (
+                        <>
+                            <div className="my-4 flex items-center">
+                                <div className="h-px flex-grow bg-slate-200"></div>
+                                <span className="mx-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    Latest
+                                </span>
+                                <div className="h-px flex-grow bg-slate-200"></div>
+                            </div>
 
-    const handlePageChange = (pageNo:number) => {
-        setPage(pageNo + 1);
-    }
-
-    return (
-        <>
-            { !isFetching ? (
-                
-                data?.data.length > 0 ? (
-                    <>
-                        <div className="flex items-center my-4">
-                            <div className="flex-grow border-t border-gray-300"></div>
-                            <span className="mx-4 text-gray-500">Latest</span>
-                            <div className="flex-grow border-t border-gray-300"></div>
-                        </div>
-
-                        <SearchResultCard data={data?.data} />
-
-                        <div className="my-4 overflow-x-auto">
+                            <SearchResultCard data={data?.data} />
 
                             <div className="my-4 overflow-x-auto">
                                 <ReactPaginate
@@ -89,23 +83,22 @@ const SearchResultLatest = forwardRef<SearchResultLatestRef, SearchResultProps>(
                                     previousLabel="<"
                                     pageRangeDisplayed={5}
                                     pageCount={data?.total ? Math.ceil(data.total / 10) : 0}
-                                    forcePage={page - 1}   // 🔴 IMPORTANT
+                                    forcePage={page - 1}
                                     onPageChange={(e) => handlePageChange(e.selected)}
                                 />
                             </div>
+                        </>
+                    ) : (
+                        <div className="rounded-xl border border-dashed border-slate-300 bg-white px-4 py-6 text-center text-sm text-slate-500">
+                            No latest results found.
                         </div>
-                    </>
+                    )
                 ) : (
-                    null
-                )
-            ) : (
-                <MySkeleton />
-            )}
-
-            
-        </>
-    )
-})
-
+                    <Skeleton />
+                )}
+            </>
+        )
+    }
+)
 
 export default SearchResultLatest

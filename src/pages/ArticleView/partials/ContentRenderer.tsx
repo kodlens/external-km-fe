@@ -22,20 +22,16 @@ export default function ContentRenderer({ html }: ContentRendererProps) {
                 if (src.startsWith("http://") || src.startsWith("https://")) {
                     img.setAttribute("referrerpolicy", "no-referrer");
                     img.loading = "lazy";
-                    //return;
                 }else{
                     img.setAttribute("referrerpolicy", "no-referrer");
                     img.loading = "lazy";
-                     // If starts with "/", don't add extra slash
                     if (src.startsWith("/")) {
                         img.src = `https://science.ph${src}`;
                     } else {
                         img.src = `https://science.ph/${src}`;
                     }
                 }
-
-               
-                
+                img.classList.add("article-image");
             });
         };
 
@@ -52,7 +48,7 @@ export default function ContentRenderer({ html }: ContentRendererProps) {
     return (
         <div
             ref={containerRef}
-            className="prose prose-sm md:prose lg:prose-lg mt-6 text-wrap text-gray-800 paragraph flex-1 min-w-0"
+            className="article-prose prose prose-sm mt-2 max-w-none text-wrap text-slate-800 md:prose-base lg:prose-lg flex-1 min-w-0"
             dangerouslySetInnerHTML={{ __html: html }}
         />
     );

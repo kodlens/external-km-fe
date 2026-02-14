@@ -1,137 +1,98 @@
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { Link, useParams } from 'react-router';
-import { config } from '../../../config/config';
-import { useEffect } from 'react';
-import Loader from '../../../components/loader/Loader';
-import { ChevronLeft, ExternalLink, Globe2, UserRound } from 'lucide-react';
-import type { Article } from '../../../types/article';
-import dayjs from 'dayjs';
-//import dayjs from 'dayjs' // ES 2015
-import './style.css'
-import ContentRenderer from './ContentRenderer';
+import { Link } from "react-router"
+import { Copy, ExternalLink, Globe2, UserRound } from "lucide-react"
+import type { Article } from "../../../types/article"
+import dayjs from "dayjs"
+import { useMemo, useState } from "react"
+import type { ReactNode } from "react"
+import "./style.css"
+import ContentRenderer from "./ContentRenderer"
 
-async function fetchArticle(slug: string): Promise<Article | null> {
-  const { data } = await axios.get(`${config.baseUri}/api/load-article/${slug}`);
-  // Expect your API to return either the info object or null/404-like payload
-  // Normalize falsy to null so the UI can show "not found".
-  return data?.data ?? data ?? null;
-}
+const ArticleContent = ({ article }: { article: Article }) => {
+    const [copied, setCopied] = useState(false)
 
+    const metaChips = useMemo(
+        () =>
+            [
+                article?.content_type
+                    ? { icon: <UserRound size={14} aria-hidden="true" />, label: article.content_type }
+                    : null,
+                article?.region ? { icon: <Globe2 size={14} aria-hidden="true" />, label: article.region } : null,
+            ].filter(Boolean) as { icon: ReactNode; label: string }[],
+        [article?.content_type, article?.region]
+    )
 
-const ArticleContent = () => {
-
-  const { slug = "" } = useParams();
-
-  const {
-    data: article,
-    isLoading,
-    
-  } = useQuery({
-    queryKey: ["article", slug],
-    queryFn: () => fetchArticle(slug),
-    enabled: !!slug,
-    retry: 1,
-  });
-
-  // Set document title for nicer UX/SEO
-  useEffect(() => {
-    if (article?.title) {
-      document.title = article.title;
-    } else {
-      document.title = "Article | Digital Collections";
+    const copyArticleLink = async () => {
+        try {
+            await navigator.clipboard.writeText(window.location.href)
+            setCopied(true)
+            window.setTimeout(() => setCopied(false), 1600)
+        } catch {
+            setCopied(false)
+        }
     }
-  }, [article?.title]);
 
-  if (isLoading) {
     return (
-      <div className="max-w-4xl mx-auto p-4 mt-20">
-        <Loader />
-      </div>
-    );
-  }
+        <div className="w-full min-w-0">
+            <div className="mb-4 flex flex-wrap items-center justify-end gap-3">
+                <Link
+                    to="/"
+                    className="text-sm font-medium text-sky-700 transition hover:text-sky-800"
+                >
+                    Go to Home
+                </Link>
+            </div>
 
+            <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+                <header>
+                    <div className="inline-flex items-center rounded-full bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700 ring-1 ring-sky-100">
+                        Digital Collections
+                    </div>
+                    <h1 className="mt-4 text-2xl font-black leading-tight tracking-tight text-slate-900 md:text-4xl">
+                        {article?.title}
+                    </h1>
+                    <p className="mt-3 text-sm text-slate-500">
+                        Published {article?.publish_date ? dayjs(article.publish_date).format("MMM DD, YYYY") : "-"}
+                    </p>
 
-  const metaChips = [
-    article?.content_type ? { icon: <UserRound size={14} />, label: article.content_type } : null,
-    article?.region ? { icon: <Globe2 size={14} />, label: article.region } : null,
-  ].filter(Boolean) as any[];
+                    <div className="mt-4 flex flex-wrap items-center gap-2">
+                        {metaChips.map((c, idx) => (
+                            <span
+                                key={idx}
+                                className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-700"
+                            >
+                                {c.icon}
+                                {c.label}
+                            </span>
+                        ))}
 
+                        {article?.source_url ? (
+                            <a
+                                href={article?.source_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs text-sky-700 transition hover:bg-sky-100"
+                                title="Open source"
+                            >
+                                <ExternalLink size={14} aria-hidden="true" /> Source
+                            </a>
+                        ) : null}
 
-  return (
-    <div className="w-full mx-auto p-4 md:p-6">
-      {/* Back link */}
-      <div className="mb-4">
-        <Link to="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800">
-          <ChevronLeft size={18} /> Back to main
-        </Link>
-      </div>
+                        <button
+                            type="button"
+                            onClick={copyArticleLink}
+                            className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-700 transition hover:bg-slate-50"
+                        >
+                            <Copy size={14} aria-hidden="true" /> {copied ? "Copied" : "Copy link"}
+                        </button>
+                    </div>
+                </header>
 
-      {/* Card */}
-      <article className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
-        {/* Title */}
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{article?.title}</h1>
+                <div className="my-6 h-px w-full bg-slate-200" />
 
-        <div className="flex items-center my-4">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <div className="flex-grow border-t border-gray-300"></div>
+                <ContentRenderer html={article ? article.description : ""} />
+            </article>
         </div>
-
-        <h1 className='font-bold text-gray-500'>{ dayjs(article?.publish_date).format("MMM DD, YYYY") }</h1>
-
-        {/* Meta */}
-        {metaChips.length > 0 || article?.source_url ? (
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            {metaChips.map((c, idx) => (
-              <span
-                key={idx}
-                className="inline-flex items-center gap-1 rounded-full bg-gray-100 border border-gray-200 px-2.5 py-1 text-xs text-gray-700"
-              >
-                {c.icon}
-                {c.label}
-              </span>
-            ))}
-            {article?.source_url ? (
-              <a
-                href={article?.source_url}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800"
-                title="Open source"
-              >
-                <ExternalLink size={14} /> Source
-              </a>
-            ) : null}
-          </div>
-        ) : null}
-
-        {/* Content */}
-        <div className='flex'>
-            <ContentRenderer html={article ? article.description : ''} />
-        </div>
-        
-        {/* <div
-          className="prose prose-sm md:prose lg:prose-lg max-w-none mt-6 text-gray-800 paragraph"
-          // Your `description` already contains sanitized/controlled HTML from your DB.
-          dangerouslySetInnerHTML={{ __html: article ? article.description : '' }}
-        /> */}
-
-        {/* Footer actions */}
-        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
-          <div className="text-xs text-gray-500">
-            Title: <span className="font-mono">{article?.title}</span>
-          </div>
-          {/* <Link
-            to="/"
-            className="text-sm text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-2"
-          >
-            <ChevronLeft size={16} />
-            Back to main
-          </Link> */}
-        </div>
-      </article>
-    </div>
-  )
+    )
 }
 
 export default ArticleContent

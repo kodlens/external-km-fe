@@ -1,9 +1,8 @@
-import { Link } from 'react-router';
-import type { Article } from '../types/article'
-import { View } from 'lucide-react';
+import { Link } from "react-router"
+import type { Article } from "../types/article"
+import { CalendarDays, ExternalLink } from "lucide-react"
 
-const SearchResultCard = ( { data } : { data:Article[] }) => {
-  
+const SearchResultCard = ({ data }: { data: Article[] }) => {
     const redirection = (i: Article) => {
         if (i.source_url) {
             return `${i.source_url}/article/${i.slug}`
@@ -14,51 +13,51 @@ const SearchResultCard = ( { data } : { data:Article[] }) => {
    
     return (
         <div className="flex flex-col gap-4">
-            { data?.map((item:Article, i:number) => (
+            {data?.map((item: Article, i: number) => (
                 <div
                     key={i}
-                    className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition bg-white"
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                    {/* Title */}
-                    <h3 className="text-lg font-semibold text-blue-600 mb-2">
+                    <h3 className="mb-2 text-lg font-bold text-sky-700">
                         <Link
-
                             to={`/view/article/${item.slug}`}
                             target="_blank"
-                            className="hover:underline"
+                            className="transition hover:text-sky-800 hover:underline"
                         >
                             {item.title}
                         </Link>
                     </h3>
 
-                    <div className='my-2 font-bold text-sm text-gray-500'>
-                        Publish on: {item.publish_date ? (new Date(item.publish_date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                        })) : ''}
+                    <div className="my-2 flex items-center gap-2 text-sm font-medium text-slate-500">
+                        <CalendarDays size={14} aria-hidden="true" />
+                        <span>
+                            Published:{" "}
+                            {item.publish_date
+                                ? new Date(item.publish_date).toLocaleDateString("en-US", {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric",
+                                  })
+                                : "-"}
+                        </span>
                     </div>
 
-                    {/* Description */}
-                    <div className="text-sm text-gray-700 mb-3 line-clamp-3">
+                    <div className="mb-3 line-clamp-3 text-sm leading-relaxed text-slate-700">
                         {item.description_text}
                     </div>
 
-
                     {item.description && (
-
-                        <div className="flex gap-2 items-center">
-                            <View size={12} />
+                        <div className="flex items-center gap-2 text-xs">
+                            <ExternalLink size={12} className="text-slate-500" aria-hidden="true" />
                             <Link
                                 to={redirection(item)}
                                 target="_blank"
-                                className="text-xs text-blue-500 hover:underline"
+                                className="truncate text-sky-600 transition hover:text-sky-700 hover:underline"
                             >
                                 {item.source_url}/{item.slug}
                             </Link>
                         </div>
                     )}
-
                 </div>
             ))}
         </div>
