@@ -22,7 +22,7 @@ const Subjects = () => {
 
     if (isFetching) {
         return (
-            <div className="grid gap-6 p-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-6 p-2 sm:grid-cols-2 lg:grid-cols-3">
                 {[...Array(4)].map((_, i) => (
                     <div key={i} className="animate-pulse rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                         <div className="h-6 w-2/3 rounded bg-slate-200" />
@@ -49,7 +49,7 @@ const Subjects = () => {
 
     return (
         <motion.div
-            className="grid gap-5 p-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid gap-5 p-2 sm:grid-cols-2 lg:grid-cols-3"
             initial="hidden"
             animate="visible"
             variants={{

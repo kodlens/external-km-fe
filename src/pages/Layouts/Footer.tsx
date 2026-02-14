@@ -1,3 +1,5 @@
+import { Link } from "react-router"
+
 export const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300 py-8">
@@ -5,7 +7,7 @@ export const Footer = () => {
         {/* Left - Branding */}
         <div className="text-center md:text-left">
           <p className="text-sm">
-            © {new Date().getFullYear()} DOST-STII. All rights reserved.
+            &copy; {new Date().getFullYear()} DOST-STII. All rights reserved.
           </p>
         </div>
 
@@ -17,11 +19,12 @@ export const Footer = () => {
           <a href="#terms" className="hover:text-white transition">
             Terms of Service
           </a>
-          <a href="#contact" className="hover:text-white transition">
+          <Link to="/contact" className="hover:text-white transition">
             Contact
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
   )
 }
+

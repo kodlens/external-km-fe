@@ -3,6 +3,7 @@ import { BookOpen, Newspaper, Search, Sparkles } from "lucide-react"
 import WelcomeHeroWithSearch from "../../components/WelcomeHeroWithSearch"
 //import ResultIndex from "../Result/ResultIndex"
 import Subjects from "../../components/Subjects"
+import OfficeMap from "../../components/OfficeMap"
 import { useNavigate } from "react-router"
 
 export const WelcomeIndex = () => {
@@ -15,6 +16,10 @@ export const WelcomeIndex = () => {
 
     const navigate = useNavigate()
     const quickTags = ["Innovation", "Technology", "Research", "News"]
+    const heroBgImage =
+        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1800&q=80"
+    const categoriesBgImage =
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1800&q=80"
     const quickActions = [
         {
             title: "Popular Topics",
@@ -60,6 +65,11 @@ export const WelcomeIndex = () => {
             <section
                 id="search"
                 className="relative overflow-hidden bg-gradient-to-b from-sky-50 via-white to-amber-50/40 px-6"
+                style={{
+                    backgroundImage: `linear-gradient(to bottom, rgba(15,23,42,0.24) 0%, rgba(15,23,42,0.18) 30%, rgba(240,249,255,0.90) 60%, rgba(255,255,255,0.94) 80%, rgba(255,251,235,0.88) 100%), url("${heroBgImage}")`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}
             >
                 <div className="pointer-events-none absolute -top-20 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-sky-200/30 blur-3xl" />
                 <div className="pointer-events-none absolute bottom-0 right-0 h-56 w-56 rounded-full bg-red-200/20 blur-3xl" />
@@ -68,7 +78,7 @@ export const WelcomeIndex = () => {
                     <div
                         className={`text-center transition-all duration-700 ${
                             isVisible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
-                        }`}
+                        } drop-shadow-[0_2px_10px_rgba(255,255,255,0.8)]`}
                     >
                         <WelcomeHeroWithSearch />
                     </div>
@@ -76,12 +86,12 @@ export const WelcomeIndex = () => {
                     <div
                         className={`text-center transition-all delay-100 duration-700 ${
                             isVisible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
-                        }`}
+                        } [text-shadow:0_2px_10px_rgba(255,255,255,0.75)]`}
                     >
                         <span className="inline-block rounded-full border border-sky-100 bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700 shadow-sm">
                             STII Portal
                         </span>
-                        <h1 className="mt-4 text-3xl font-black leading-tight tracking-tight text-slate-800 md:text-5xl">
+                        <h1 className="mt-4 text-3xl font-black leading-tight tracking-tight text-bord text-slate-800 md:text-5xl">
                             Knowledge Management
                         </h1>
                         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 md:text-base">
@@ -189,7 +199,15 @@ export const WelcomeIndex = () => {
         </section>
       )} */}
 
-            <section id="subjects" className="bg-slate-50 py-16">
+            <section
+                id="subjects"
+                className="relative bg-slate-50 py-16"
+                style={{
+                    backgroundImage: `linear-gradient(to bottom, rgba(248,250,252,0.95), rgba(248,250,252,0.96)), url("${categoriesBgImage}")`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}
+            >
                 <div className="mx-auto px-6 lg:max-w-7xl">
                     <h2 className="mb-4 text-center text-2xl font-extrabold tracking-tight text-slate-800 md:text-3xl">
                         Discover Knowledge Categories
@@ -199,6 +217,32 @@ export const WelcomeIndex = () => {
                         innovations.
                     </p>
                     <Subjects />
+                </div>
+            </section>
+
+            <section id="location" className="bg-white py-16">
+                <div className="mx-auto px-6 lg:max-w-7xl">
+                    <h2 className="mb-4 text-center text-2xl font-extrabold tracking-tight text-slate-800 md:text-3xl">
+                        Visit Our Office
+                    </h2>
+                    <p className="mx-auto mb-8 max-w-2xl text-center text-slate-600">
+                        You can find DOST-STII in Bicutan, Taguig City, Metro Manila.
+                    </p>
+                    <OfficeMap />
+                    <div className="mt-6 grid gap-3 md:grid-cols-3">
+                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
+                            <p className="mt-1 text-sm font-medium text-slate-800">stii@dost.gov.ph</p>
+                        </div>
+                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
+                            <p className="mt-1 text-sm font-medium text-slate-800">(02) 8837-2071</p>
+                        </div>
+                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Office</p>
+                            <p className="mt-1 text-sm font-medium text-slate-800">Bicutan, Taguig City</p>
+                        </div>
+                    </div>
                 </div>
             </section>
         </>
