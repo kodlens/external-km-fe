@@ -1,6 +1,6 @@
-import { useLocation } from "react-router"
+import { useLocation, useNavigate } from "react-router"
 import { BookOpen, Search, SlidersHorizontal, Tags } from "lucide-react"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import SubjectLabel, { type SubjectLabelRef } from "./partials/SubjectLabel"
 import SubjectHeadingLabel, { type SubjectHeadingRef } from "./partials/SubjectHeadingLabel"
@@ -12,21 +12,28 @@ import { useIsFetching } from "@tanstack/react-query"
 
 const SubjectIndex = () => {
     const { search } = useLocation()
+    const navigate = useNavigate()
     const query = new URLSearchParams(search)
     const isFetching = useIsFetching()
     const isLoading = isFetching > 0
 
+    const key = query.get("key") ?? ""
     const paramSubject = query.get("subj") ?? ""
     const paramSh = query.get("sh") ?? ""
 
-    const [textSearch, setTextSearch] = useState("")
+    const [textSearch, setTextSearch] = useState(key)
 
     const searchRefLatest = useRef<SearchResultRefLatest>(null)
     const searchRefOthers = useRef<SearchResultRefOthers>(null)
     const subjectRef = useRef<SubjectLabelRef>(null)
     const subjectHeadingRef = useRef<SubjectHeadingRef>(null)
 
+    useEffect(() => {
+        setTextSearch(key)
+    }, [key])
+
     const handleSearch = () => {
+        navigate(`/subject/search?key=${encodeURIComponent(textSearch)}&subj=${paramSubject}&sh=${paramSh}`)
         searchRefLatest.current?.reload()
         searchRefOthers.current?.reload()
         subjectRef.current?.reload()
@@ -73,7 +80,7 @@ const SubjectIndex = () => {
                                 <Tags size={16} className="text-sky-700" />
                                 Categories
                             </h2>
-                            <SubjectLabel ref={subjectRef} search={textSearch} subject={paramSubject} />
+                            <SubjectLabel ref={subjectRef} search={key} subject={paramSubject} />
                         </div>
 
                         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -83,7 +90,7 @@ const SubjectIndex = () => {
                             </h2>
                             <SubjectHeadingLabel
                                 ref={subjectHeadingRef}
-                                search={textSearch}
+                                search={key}
                                 subject={paramSubject}
                             />
                         </div>
@@ -95,7 +102,7 @@ const SubjectIndex = () => {
                             Digital Collections
                         </h2>
 
-                        {!textSearch && (
+                        {!key && (
                             <div className="mb-6 rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-10 text-center text-slate-500">
                                 Type a keyword to filter topics in this category.
                             </div>
@@ -103,14 +110,14 @@ const SubjectIndex = () => {
 
                         <SearchResultLatest
                             ref={searchRefLatest}
-                            search={textSearch}
+                            search={key}
                             subject={paramSubject}
                             sh={paramSh}
                         />
 
                         <SearchResultOthers
                             ref={searchRefOthers}
-                            search={textSearch}
+                            search={key}
                             subject={paramSubject}
                             sh={paramSh}
                         />

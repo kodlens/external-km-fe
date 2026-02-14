@@ -85,7 +85,7 @@ const SearchResultIndex = () => {
                                 <Tags size={16} className="text-sky-700" />
                                 Categories
                             </h2>
-                            <SubjectLabel ref={subjectRef} search={textSearch} />
+                            <SubjectLabel ref={subjectRef} search={key} />
                         </div>
 
                         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -95,7 +95,7 @@ const SearchResultIndex = () => {
                             </h2>
                             <SubjectHeadingLabel
                                 ref={subjectHeadingRef}
-                                search={textSearch}
+                                search={key}
                                 subject={paramSubject || "all"}
                             />
                         </div>
@@ -111,7 +111,7 @@ const SearchResultIndex = () => {
                                         className="rounded-full p-0.5 transition hover:bg-emerald-100"
                                         onClick={() =>
                                             navigate(
-                                                `/search?key=${encodeURIComponent(textSearch)}&subj=&sh=${paramSh}`
+                                                `/search?key=${encodeURIComponent(key)}&subj=&sh=${paramSh}`
                                             )
                                         }
                                         aria-label="Remove subject filter"
@@ -129,7 +129,7 @@ const SearchResultIndex = () => {
                                         className="rounded-full p-0.5 transition hover:bg-emerald-100"
                                         onClick={() =>
                                             navigate(
-                                                `/search?key=${encodeURIComponent(textSearch)}&subj=${paramSubject}&sh=`
+                                                `/search?key=${encodeURIComponent(key)}&subj=${paramSubject}&sh=`
                                             )
                                         }
                                         aria-label="Remove topic filter"
@@ -145,7 +145,7 @@ const SearchResultIndex = () => {
                             Digital Collections
                         </h2>
 
-                        {!textSearch && (
+                        {!key && (
                             <div className="mb-6 rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-10 text-center text-slate-500">
                                 Start typing to search our digital collections.
                             </div>
@@ -153,7 +153,7 @@ const SearchResultIndex = () => {
 
                         <SearchResultLatest
                             ref={searchRefLatest}
-                            search={textSearch}
+                            search={key}
                             subject={paramSubject}
                             sh={paramSh}
                         />
@@ -168,7 +168,7 @@ const SearchResultIndex = () => {
 
                         <SearchResultOthers
                             ref={searchRefOthers}
-                            search={textSearch}
+                            search={key}
                             subject={paramSubject}
                             sh={paramSh}
                         />
