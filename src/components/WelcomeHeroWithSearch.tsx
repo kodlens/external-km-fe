@@ -4,7 +4,7 @@ const WelcomeHeroWithSearch = () => {
   return (
     <>
        <Link to='/'>
-        <img src="/images/header-logo.png" className="block mx-auto mb-6" />
+        <img src="/images/app-logo.png" className="block mx-auto mb-6" />
       </Link>
       </>
    
